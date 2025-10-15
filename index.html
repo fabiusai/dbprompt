@@ -1,41 +1,3 @@
-Assolutamente sì, è un'evoluzione eccellente che renderà l'interfaccia molto più pulita e funzionale. Separare il titolo dal corpo del testo è la soluzione migliore.
-
-Ho aggiornato l'applicazione per implementare esattamente questo comportamento.
-
-### \#\# Cosa è stato aggiunto e modificato (Upgrade v7)
-
-1.  **Campo "Titolo" Aggiunto**:
-
-      * Nel modulo di inserimento, ora c'è un campo dedicato per il **Titolo** dello snippet, che è diventato obbligatorio.
-      * Ogni snippet nella lista principale ora mostra chiaramente il suo titolo.
-
-2.  **Compositore con i Titoli**:
-
-      * Quando selezioni uno o più snippet, l'area del compositore a sinistra ora mostra **solo l'elenco dei titoli**.
-      * Questo rende la lista molto più compatta e facile da riordinare tramite drag-and-drop.
-
-3.  **Formattazione Automatica alla Copia**:
-
-      * Questa è la modifica chiave: quando clicchi su **"Copia Prompt Finale"**, l'applicazione prende i titoli che hai riordinato, recupera il testo completo di ogni snippet corrispondente e formatta automaticamente il tutto secondo la regola che hai specificato:
-        ```
-        ***TITOLO DELLO SNIPPET***
-        Testo dello snippet...
-
-        ---
-
-        ***TITOLO DEL SECONDO SNIPPET***
-        Testo del secondo snippet...
-        ```
-
-4.  **Retrocompatibilità**: Se carichi un vecchio file `db.json` dove gli snippet non hanno un titolo, l'app creerà automaticamente un titolo provvisorio usando le prime parole del testo per non generare errori.
-
------
-
-### Codice Aggiornato v7 (con Titoli e Formattazione Automatica)
-
-Ecco il nuovo codice. Sostituisci la versione precedente con questa per avere tutte le nuove funzionalità.
-
-```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -444,4 +406,3 @@ Ecco il nuovo codice. Sostituisci la versione precedente con questa per avere tu
     </script>
 </body>
 </html>
-```
