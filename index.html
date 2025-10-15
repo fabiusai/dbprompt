@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libreria di Prompt v5 (Coerente)</title>
+    <title>Libreria di Prompt v6 (GitHub Sync)</title>
     <style>
         :root {
             --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
@@ -56,9 +56,10 @@
 </head>
 <body>
     <header>
-        <h1>Libreria di Prompt v5</h1>
+        <h1>Libreria di Prompt v6</h1>
         <div class="button-group">
-            <button id="load-db-btn" class="btn-secondary">Carica db.json</button>
+            <button id="load-github-btn" class="btn-secondary">Carica da GitHub</button>
+            <button id="copy-db-btn" class="btn-secondary">Copia DB per GitHub</button>
             <div class="file-input-wrapper">
                 <button class="btn-secondary">Importa File</button>
                 <input type="file" id="import-btn" accept=".json">
@@ -112,12 +113,14 @@
             const importBtn = document.getElementById('import-btn');
             const exportBtn = document.getElementById('export-btn');
             const clearStorageBtn = document.getElementById('clear-storage-btn');
-            const loadDbBtn = document.getElementById('load-db-btn');
+            const loadGithubBtn = document.getElementById('load-github-btn'); // Nuovo pulsante
+            const copyDbBtn = document.getElementById('copy-db-btn'); // Nuovo pulsante
 
             // Stato dell'app
             let snippets = [];
             let selectedSnippetIds = new Set();
             const STORAGE_KEY = 'promptLibrarySnippets';
+            const GITHUB_DB_URL = 'https://raw.githubusercontent.com/fabiusai/dbprompt/main/db.json';
 
             // --- FUNZIONI DI GESTIONE DATI ---
             const saveData = () => {
@@ -233,169 +236,4 @@
                 if (!card) return;
                 const id = parseInt(card.dataset.id);
                 if (e.target.classList.contains('snippet-checkbox')) {
-                    if (e.target.checked) selectedSnippetIds.add(id);
-                    else selectedSnippetIds.delete(id);
-                    updateComposer();
-                    saveData();
-                    return;
-                }
-                const action = e.target.dataset.action;
-                if (action) {
-                    const snippet = snippets.find(s => s.id === id);
-                    if (action === 'delete') {
-                        if (confirm('Sei sicuro di voler eliminare questo snippet?')) {
-                            snippets = snippets.filter(s => s.id !== id);
-                            selectedSnippetIds.delete(id);
-                            renderAll();
-                            saveData();
-                        }
-                    } else if (action === 'edit') {
-                        snippetIdInput.value = snippet.id;
-                        snippetTextInput.value = snippet.text;
-                        snippetTagsInput.value = snippet.tags.join(', ');
-                        saveBtn.textContent = 'Salva Modifiche';
-                        cancelBtn.style.display = 'inline-block';
-                        snippetTextInput.focus();
-                    } else if (action === 'duplicate') {
-                        snippets.unshift({ ...snippet, id: Date.now() });
-                        renderAll();
-                        saveData();
-                    }
-                }
-            });
-
-            copyBtn.addEventListener('click', () => {
-                const finalPrompt = Array.from(composerList.children).map(item => item.querySelector('.composer-item-text').textContent).join('\n\n---\n\n');
-                if (finalPrompt) {
-                    navigator.clipboard.writeText(finalPrompt).then(() => {
-                        copyBtn.textContent = 'Copiato!';
-                        setTimeout(() => { copyBtn.textContent = 'Copia Prompt Finale'; }, 1500);
-                    });
-                }
-            });
-            
-            // Drag & Drop
-            let draggedItem = null;
-            composerList.addEventListener('dragstart', (e) => {
-                draggedItem = e.target.closest('.composer-item');
-                setTimeout(() => { if (draggedItem) draggedItem.classList.add('dragging'); }, 0);
-            });
-            composerList.addEventListener('dragend', () => {
-                if (draggedItem) {
-                    draggedItem.classList.remove('dragging');
-                    draggedItem = null;
-                    const newOrder = Array.from(composerList.children).map(item => parseInt(item.dataset.id));
-                    selectedSnippetIds = new Set(newOrder);
-                    saveData();
-                }
-            });
-            composerList.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const afterElement = [...composerList.querySelectorAll('.composer-item:not(.dragging)')].reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = e.clientY - box.top - box.height / 2;
-                    return (offset < 0 && offset > closest.offset) ? { offset: offset, element: child } : closest;
-                }, { offset: Number.NEGATIVE_INFINITY }).element;
-                if (draggedItem) {
-                    if (afterElement == null) composerList.appendChild(draggedItem);
-                    else composerList.insertBefore(draggedItem, afterElement);
-                }
-            });
-            composerList.addEventListener('click', e => {
-                if (e.target.classList.contains('composer-item-remove')) {
-                    const item = e.target.closest('.composer-item');
-                    const id = parseInt(item.dataset.id);
-                    selectedSnippetIds.delete(id);
-                    const checkbox = snippetList.querySelector(`.snippet-card[data-id="${id}"] .snippet-checkbox`);
-                    if(checkbox) checkbox.checked = false;
-                    updateComposer();
-                    saveData();
-                }
-            });
-
-            // GESTORI EVENTI PER IMPORT/EXPORT/CLEAR
-            clearStorageBtn.addEventListener('click', () => {
-                if (confirm('ATTENZIONE: Stai per eliminare l\'intera libreria salvata nel browser. Continuare?')) {
-                    localStorage.removeItem(STORAGE_KEY);
-                    snippets = [];
-                    selectedSnippetIds.clear();
-                    renderAll();
-                }
-            });
-
-            // --- CORREZIONE QUI ---
-            exportBtn.addEventListener('click', () => {
-                if (snippets.length === 0) { 
-                    alert('La libreria è vuota.'); 
-                    return; 
-                }
-                // Crea l'oggetto completo, non solo l'array di snippet
-                const dataToExport = {
-                    snippets: snippets,
-                    selectedIds: Array.from(selectedSnippetIds)
-                };
-                const dataStr = JSON.stringify(dataToExport, null, 2);
-                const dataBlob = new Blob([dataStr], {type: "application/json"});
-                const url = URL.createObjectURL(dataBlob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `prompt_libreria_${new Date().toISOString().slice(0,10)}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-            });
-
-            importBtn.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        if (data && Array.isArray(data.snippets)) {
-                            if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale. Continuare?')) return;
-                            snippets = data.snippets;
-                            selectedSnippetIds = new Set(data.selectedIds || []);
-                            renderAll();
-                            saveData();
-                            alert('Libreria importata con successo!');
-                        } else { throw new Error("Formato file non valido."); }
-                    } catch (error) {
-                        alert('Errore: Il file selezionato non è un JSON valido.');
-                    } finally { importBtn.value = ''; }
-                };
-                reader.readAsText(file);
-            });
-            
-            const loadFromDbJson = async () => {
-                if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale con i contenuti di db.json. Continuare?')) {
-                    return;
-                }
-                try {
-                    const response = await fetch('db.json');
-                    if (!response.ok) {
-                        throw new Error(`File non trovato o errore di rete (status: ${response.status})`);
-                    }
-                    const data = await response.json();
-                    if (data && Array.isArray(data.snippets)) {
-                        snippets = data.snippets;
-                        selectedSnippetIds = new Set(data.selectedIds || []);
-                        renderAll();
-                        saveData();
-                        alert('Libreria caricata da db.json con successo!');
-                    } else {
-                        throw new Error("Il formato del file db.json non è valido.");
-                    }
-                } catch (error) {
-                    console.error("Errore caricando db.json:", error);
-                    alert(`Errore: Impossibile caricare il file db.json.\n\nDettagli: ${error.message}`);
-                }
-            };
-            
-            loadDbBtn.addEventListener('click', loadFromDbJson);
-
-            // --- INIZIALIZZAZIONE ---
-            loadData();
-        });
-    </script>
-</body>
-</html>
+                    if (e.target.checked) selected
