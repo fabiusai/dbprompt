@@ -8,7 +8,791 @@
         :root {
             --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
             --primary-hover: #0056b3; --text-color: #f0f0f0; --border-color: #444;
+            --success-color: #28a745; --danger-color: #dc3545; --warning-color: #ffc107;<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libreria di Prompt v4 (Caricamento Locale)</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
+            --primary-hover: #0056b3; --text-color: #f0f0f0; --border-color: #444;
             --success-color: #28a745; --danger-color: #dc3545; --warning-color: #ffc107;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
+            display: flex; flex-direction: column; height: 100vh; box-sizing: border-box;
+        }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; flex-wrap: wrap; gap: 10px; }
+        h1 { margin: 0; color: var(--primary-color); }
+        .main-container { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; flex-grow: 1; min-height: 0; }
+        .column { display: flex; flex-direction: column; background-color: var(--surface-color); border-radius: 8px; padding: 20px; overflow-y: auto; }
+        .form-section, .composer-section { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        textarea, input[type="text"] {
+            width: 100%; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color);
+            border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; resize: vertical;
+        }
+        textarea { min-height: 120px; }
+        .button-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        #composer-list { border: 1px solid var(--border-color); border-radius: 4px; min-height: 150px; padding: 10px; background-color: var(--bg-color); overflow-y: auto; }
+        .composer-item { background-color: var(--surface-color); padding: 10px; margin-bottom: 5px; border-radius: 4px; cursor: grab; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
+        .composer-item:last-child { margin-bottom: 0; }
+        .composer-item.dragging { opacity: 0.5; }
+        .composer-item-text { white-space: pre-wrap; word-break: break-word; flex-grow: 1; }
+        .composer-item-remove { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 1.2em; padding: 0 5px; margin-left: 10px; }
+        #snippet-list { display: flex; flex-direction: column; gap: 15px; }
+        .snippet-card { background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; display: flex; flex-direction: column; }
+        .snippet-content { display: flex; gap: 15px; }
+        .snippet-checkbox { margin-top: 4px; }
+        .snippet-text { white-space: pre-wrap; word-break: break-word; flex-grow: 1; }
+        .snippet-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag { background-color: var(--primary-color); color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px; }
+        .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; }
+        .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 5px 10px; }
+        .action-btn:hover { background-color: var(--border-color); }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
+        .file-input-wrapper .btn-secondary { padding: 10px 15px; }
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Libreria di Prompt v4</h1>
+        <div class="button-group">
+            <button id="load-db-btn" class="btn-secondary">Carica db.json</button>
+            <div class="file-input-wrapper">
+                <button class="btn-secondary">Importa File</button>
+                <input type="file" id="import-btn" accept=".json">
+            </div>
+            <button id="export-btn" class="btn-secondary">Esporta File</button>
+            <button id="clear-storage-btn" class="btn-danger">Pulisci Libreria</button>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="column">
+            <div class="form-section">
+                <form id="snippet-form">
+                    <input type="hidden" id="snippet-id">
+                    <label for="snippet-text">Testo dello Snippet</label>
+                    <textarea id="snippet-text" required></textarea>
+                    <label for="snippet-tags" style="margin-top:10px;">Tag (separati da virgola)</label>
+                    <input type="text" id="snippet-tags">
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary" id="save-btn">Aggiungi Snippet</button>
+                        <button type="button" id="cancel-btn" style="display:none;" class="btn-secondary">Annulla</button>
+                    </div>
+                </form>
+            </div>
+            <div class="composer-section">
+                <label for="composer-list">Compositore Prompt (Trascina per riordinare)</label>
+                <div id="composer-list"></div>
+                <div class="button-group">
+                    <button id="copy-btn" class="btn-success">Copia Prompt Finale</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <input type="text" id="search-input" placeholder="Filtra per testo o tag...">
+            <div id="snippet-list" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Riferimenti DOM
+            const snippetForm = document.getElementById('snippet-form');
+            const snippetIdInput = document.getElementById('snippet-id');
+            const snippetTextInput = document.getElementById('snippet-text');
+            const snippetTagsInput = document.getElementById('snippet-tags');
+            const saveBtn = document.getElementById('save-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const searchInput = document.getElementById('search-input');
+            const snippetList = document.getElementById('snippet-list');
+            const composerList = document.getElementById('composer-list');
+            const copyBtn = document.getElementById('copy-btn');
+            const importBtn = document.getElementById('import-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const clearStorageBtn = document.getElementById('clear-storage-btn');
+            const loadDbBtn = document.getElementById('load-db-btn'); // Nuovo pulsante
+
+            // Stato dell'app
+            let snippets = [];
+            let selectedSnippetIds = new Set();
+            const STORAGE_KEY = 'promptLibrarySnippets';
+
+            // --- FUNZIONI DI GESTIONE DATI ---
+            const saveData = () => {
+                const dataToSave = {
+                    snippets: snippets,
+                    selectedIds: Array.from(selectedSnippetIds)
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+            };
+
+            const loadData = () => {
+                const savedData = localStorage.getItem(STORAGE_KEY);
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        snippets = data.snippets || [];
+                        selectedSnippetIds = new Set(data.selectedIds || []);
+                    } catch (e) {
+                        console.error("Errore nel caricamento dei dati:", e);
+                        snippets = [];
+                        selectedSnippetIds = new Set();
+                    }
+                }
+                renderAll();
+            };
+            
+            // --- FUNZIONI DI RENDER ---
+            const renderAll = () => {
+                renderSnippets();
+                updateComposer();
+            };
+            
+            const renderSnippets = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                snippetList.innerHTML = '';
+                if (snippets.length === 0) {
+                    snippetList.innerHTML = '<p>Nessuno snippet. Aggiungine uno o importa una libreria.</p>';
+                    return;
+                }
+                const filteredSnippets = snippets.filter(s => {
+                    const tagString = s.tags.join(' ').toLowerCase();
+                    return s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
+                });
+                filteredSnippets.forEach(snippet => {
+                    const card = document.createElement('div');
+                    card.className = 'snippet-card';
+                    card.dataset.id = snippet.id;
+                    const isChecked = selectedSnippetIds.has(snippet.id);
+                    const tagsHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                    card.innerHTML = `
+                        <div class="snippet-content">
+                            <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
+                            <div class="snippet-text">${snippet.text}</div>
+                        </div>
+                        <div class="snippet-tags">${tagsHTML}</div>
+                        <div class="snippet-actions">
+                            <button class="action-btn" data-action="edit">Modifica</button>
+                            <button class="action-btn" data-action="duplicate">Duplica</button>
+                            <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
+                        </div>`;
+                    snippetList.appendChild(card);
+                });
+            };
+            
+            const updateComposer = () => {
+                composerList.innerHTML = '';
+                selectedSnippetIds.forEach(id => {
+                    const snippet = snippets.find(s => s.id === id);
+                    if (snippet) {
+                        const item = document.createElement('div');
+                        item.className = 'composer-item';
+                        item.dataset.id = snippet.id;
+                        item.draggable = true;
+                        item.innerHTML = `
+                            <span class="composer-item-text">${snippet.text}</span>
+                            <button class="composer-item-remove" title="Rimuovi">&times;</button>`;
+                        composerList.appendChild(item);
+                    }
+                });
+            };
+
+            const resetForm = () => {
+                snippetForm.reset();
+                snippetIdInput.value = '';
+                saveBtn.textContent = 'Aggiungi Snippet';
+                cancelBtn.style.display = 'none';
+            };
+
+            // --- GESTORI DI EVENTI ---
+
+            snippetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = snippetIdInput.value;
+                const text = snippetTextInput.value.trim();
+                const tags = snippetTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean);
+                if (!text) return;
+                if (id) {
+                    const index = snippets.findIndex(s => s.id == id);
+                    if (index > -1) snippets[index] = { ...snippets[index], text, tags };
+                } else {
+                    snippets.unshift({ id: Date.now(), text, tags });
+                }
+                resetForm();
+                renderAll();
+                saveData();
+            });
+
+            cancelBtn.addEventListener('click', resetForm);
+            searchInput.addEventListener('input', renderSnippets);
+            
+            snippetList.addEventListener('click', (e) => {
+                const card = e.target.closest('.snippet-card');
+                if (!card) return;
+                const id = parseInt(card.dataset.id);
+                if (e.target.classList.contains('snippet-checkbox')) {
+                    if (e.target.checked) selectedSnippetIds.add(id);
+                    else selectedSnippetIds.delete(id);
+                    updateComposer();
+                    saveData();
+                    return;
+                }
+                const action = e.target.dataset.action;
+                if (action) {
+                    const snippet = snippets.find(s => s.id === id);
+                    if (action === 'delete') {
+                        if (confirm('Sei sicuro di voler eliminare questo snippet?')) {
+                            snippets = snippets.filter(s => s.id !== id);
+                            selectedSnippetIds.delete(id);
+                            renderAll();
+                            saveData();
+                        }
+                    } else if (action === 'edit') {
+                        snippetIdInput.value = snippet.id;
+                        snippetTextInput.value = snippet.text;
+                        snippetTagsInput.value = snippet.tags.join(', ');
+                        saveBtn.textContent = 'Salva Modifiche';
+                        cancelBtn.style.display = 'inline-block';
+                        snippetTextInput.focus();
+                    } else if (action === 'duplicate') {
+                        snippets.unshift({ ...snippet, id: Date.now() });
+                        renderAll();
+                        saveData();
+                    }
+                }
+            });
+
+            copyBtn.addEventListener('click', () => {
+                const finalPrompt = Array.from(composerList.children).map(item => item.querySelector('.composer-item-text').textContent).join('\n\n---\n\n');
+                if (finalPrompt) {
+                    navigator.clipboard.writeText(finalPrompt).then(() => {
+                        copyBtn.textContent = 'Copiato!';
+                        setTimeout(() => { copyBtn.textContent = 'Copia Prompt Finale'; }, 1500);
+                    });
+                }
+            });
+            
+            // Drag & Drop
+            let draggedItem = null;
+            composerList.addEventListener('dragstart', (e) => {
+                draggedItem = e.target.closest('.composer-item');
+                setTimeout(() => { if (draggedItem) draggedItem.classList.add('dragging'); }, 0);
+            });
+            composerList.addEventListener('dragend', () => {
+                if (draggedItem) {
+                    draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                    const newOrder = Array.from(composerList.children).map(item => parseInt(item.dataset.id));
+                    selectedSnippetIds = new Set(newOrder);
+                    saveData();
+                }
+            });
+            composerList.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = [...composerList.querySelectorAll('.composer-item:not(.dragging)')].reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = e.clientY - box.top - box.height / 2;
+                    return (offset < 0 && offset > closest.offset) ? { offset: offset, element: child } : closest;
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+                if (draggedItem) {
+                    if (afterElement == null) composerList.appendChild(draggedItem);
+                    else composerList.insertBefore(draggedItem, afterElement);
+                }
+            });
+            composerList.addEventListener('click', e => {
+                if (e.target.classList.contains('composer-item-remove')) {
+                    const item = e.target.closest('.composer-item');
+                    const id = parseInt(item.dataset.id);
+                    selectedSnippetIds.delete(id);
+                    const checkbox = snippetList.querySelector(`.snippet-card[data-id="${id}"] .snippet-checkbox`);
+                    if(checkbox) checkbox.checked = false;
+                    updateComposer();
+                    saveData();
+                }
+            });
+
+            // GESTORI EVENTI PER IMPORT/EXPORT/CLEAR
+            clearStorageBtn.addEventListener('click', () => {
+                if (confirm('ATTENZIONE: Stai per eliminare l\'intera libreria salvata nel browser. Continuare?')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    snippets = [];
+                    selectedSnippetIds.clear();
+                    renderAll();
+                }
+            });
+
+            exportBtn.addEventListener('click', () => {
+                if (snippets.length === 0) { alert('La libreria è vuota.'); return; }
+                const dataStr = JSON.stringify({ snippets, selectedIds: Array.from(selectedSnippetIds) }, null, 2);
+                const dataBlob = new Blob([dataStr], {type: "application/json"});
+                const url = URL.createObjectURL(dataBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `prompt_libreria_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            importBtn.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data && Array.isArray(data.snippets)) {
+                            if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale. Continuare?')) return;
+                            snippets = data.snippets;
+                            selectedSnippetIds = new Set(data.selectedIds || []);
+                            renderAll();
+                            saveData();
+                            alert('Libreria importata con successo!');
+                        } else { throw new Error("Formato file non valido."); }
+                    } catch (error) {
+                        alert('Errore: Il file selezionato non è un JSON valido.');
+                    } finally { importBtn.value = ''; }
+                };
+                reader.readAsText(file);
+            });
+            
+            // --- NUOVA FUNZIONE: CARICAMENTO DA db.json ---
+            const loadFromDbJson = async () => {
+                if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale con i contenuti di db.json. Continuare?')) {
+                    return;
+                }
+                try {
+                    const response = await fetch('db.json');
+                    if (!response.ok) {
+                        throw new Error(`File non trovato o errore di rete (status: ${response.status})`);
+                    }
+                    const data = await response.json();
+                    if (data && Array.isArray(data.snippets)) {
+                        snippets = data.snippets;
+                        selectedSnippetIds = new Set(data.selectedIds || []);
+                        renderAll();
+                        saveData();
+                        alert('Libreria caricata da db.json con successo!');
+                    } else {
+                        throw new Error("Il formato del file db.json non è valido.");
+                    }
+                } catch (error) {
+                    console.error("Errore caricando db.json:", error);
+                    alert(`Errore: Impossibile caricare il file db.json. Assicurati che esista nella stessa cartella dell'app e che sia un JSON valido.\n\nDettagli: ${error.message}`);
+                }
+            };
+            
+            loadDbBtn.addEventListener('click', loadFromDbJson);
+
+            // --- INIZIALIZZAZIONE ---
+            loadData();
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libreria di Prompt v4 (Caricamento Locale)</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
+            --primary-hover: #0056b3; --text-color: #f0f0f0; --border-color: #444;
+            --success-color: #28a745; --danger-color: #dc3545; --warning-color: #ffc107;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
+            display: flex; flex-direction: column; height: 100vh; box-sizing: border-box;
+        }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; flex-wrap: wrap; gap: 10px; }
+        h1 { margin: 0; color: var(--primary-color); }
+        .main-container { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; flex-grow: 1; min-height: 0; }
+        .column { display: flex; flex-direction: column; background-color: var(--surface-color); border-radius: 8px; padding: 20px; overflow-y: auto; }
+        .form-section, .composer-section { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        textarea, input[type="text"] {
+            width: 100%; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color);
+            border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px; resize: vertical;
+        }
+        textarea { min-height: 120px; }
+        .button-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-success { background-color: var(--success-color); color: white; }
+        .btn-danger { background-color: var(--danger-color); color: white; }
+        #composer-list { border: 1px solid var(--border-color); border-radius: 4px; min-height: 150px; padding: 10px; background-color: var(--bg-color); overflow-y: auto; }
+        .composer-item { background-color: var(--surface-color); padding: 10px; margin-bottom: 5px; border-radius: 4px; cursor: grab; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
+        .composer-item:last-child { margin-bottom: 0; }
+        .composer-item.dragging { opacity: 0.5; }
+        .composer-item-text { white-space: pre-wrap; word-break: break-word; flex-grow: 1; }
+        .composer-item-remove { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 1.2em; padding: 0 5px; margin-left: 10px; }
+        #snippet-list { display: flex; flex-direction: column; gap: 15px; }
+        .snippet-card { background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; display: flex; flex-direction: column; }
+        .snippet-content { display: flex; gap: 15px; }
+        .snippet-checkbox { margin-top: 4px; }
+        .snippet-text { white-space: pre-wrap; word-break: break-word; flex-grow: 1; }
+        .snippet-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag { background-color: var(--primary-color); color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px; }
+        .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; }
+        .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 5px 10px; }
+        .action-btn:hover { background-color: var(--border-color); }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
+        .file-input-wrapper .btn-secondary { padding: 10px 15px; }
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Libreria di Prompt v4</h1>
+        <div class="button-group">
+            <button id="load-db-btn" class="btn-secondary">Carica db.json</button>
+            <div class="file-input-wrapper">
+                <button class="btn-secondary">Importa File</button>
+                <input type="file" id="import-btn" accept=".json">
+            </div>
+            <button id="export-btn" class="btn-secondary">Esporta File</button>
+            <button id="clear-storage-btn" class="btn-danger">Pulisci Libreria</button>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="column">
+            <div class="form-section">
+                <form id="snippet-form">
+                    <input type="hidden" id="snippet-id">
+                    <label for="snippet-text">Testo dello Snippet</label>
+                    <textarea id="snippet-text" required></textarea>
+                    <label for="snippet-tags" style="margin-top:10px;">Tag (separati da virgola)</label>
+                    <input type="text" id="snippet-tags">
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary" id="save-btn">Aggiungi Snippet</button>
+                        <button type="button" id="cancel-btn" style="display:none;" class="btn-secondary">Annulla</button>
+                    </div>
+                </form>
+            </div>
+            <div class="composer-section">
+                <label for="composer-list">Compositore Prompt (Trascina per riordinare)</label>
+                <div id="composer-list"></div>
+                <div class="button-group">
+                    <button id="copy-btn" class="btn-success">Copia Prompt Finale</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <input type="text" id="search-input" placeholder="Filtra per testo o tag...">
+            <div id="snippet-list" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Riferimenti DOM
+            const snippetForm = document.getElementById('snippet-form');
+            const snippetIdInput = document.getElementById('snippet-id');
+            const snippetTextInput = document.getElementById('snippet-text');
+            const snippetTagsInput = document.getElementById('snippet-tags');
+            const saveBtn = document.getElementById('save-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const searchInput = document.getElementById('search-input');
+            const snippetList = document.getElementById('snippet-list');
+            const composerList = document.getElementById('composer-list');
+            const copyBtn = document.getElementById('copy-btn');
+            const importBtn = document.getElementById('import-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const clearStorageBtn = document.getElementById('clear-storage-btn');
+            const loadDbBtn = document.getElementById('load-db-btn'); // Nuovo pulsante
+
+            // Stato dell'app
+            let snippets = [];
+            let selectedSnippetIds = new Set();
+            const STORAGE_KEY = 'promptLibrarySnippets';
+
+            // --- FUNZIONI DI GESTIONE DATI ---
+            const saveData = () => {
+                const dataToSave = {
+                    snippets: snippets,
+                    selectedIds: Array.from(selectedSnippetIds)
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+            };
+
+            const loadData = () => {
+                const savedData = localStorage.getItem(STORAGE_KEY);
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        snippets = data.snippets || [];
+                        selectedSnippetIds = new Set(data.selectedIds || []);
+                    } catch (e) {
+                        console.error("Errore nel caricamento dei dati:", e);
+                        snippets = [];
+                        selectedSnippetIds = new Set();
+                    }
+                }
+                renderAll();
+            };
+            
+            // --- FUNZIONI DI RENDER ---
+            const renderAll = () => {
+                renderSnippets();
+                updateComposer();
+            };
+            
+            const renderSnippets = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                snippetList.innerHTML = '';
+                if (snippets.length === 0) {
+                    snippetList.innerHTML = '<p>Nessuno snippet. Aggiungine uno o importa una libreria.</p>';
+                    return;
+                }
+                const filteredSnippets = snippets.filter(s => {
+                    const tagString = s.tags.join(' ').toLowerCase();
+                    return s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
+                });
+                filteredSnippets.forEach(snippet => {
+                    const card = document.createElement('div');
+                    card.className = 'snippet-card';
+                    card.dataset.id = snippet.id;
+                    const isChecked = selectedSnippetIds.has(snippet.id);
+                    const tagsHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                    card.innerHTML = `
+                        <div class="snippet-content">
+                            <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
+                            <div class="snippet-text">${snippet.text}</div>
+                        </div>
+                        <div class="snippet-tags">${tagsHTML}</div>
+                        <div class="snippet-actions">
+                            <button class="action-btn" data-action="edit">Modifica</button>
+                            <button class="action-btn" data-action="duplicate">Duplica</button>
+                            <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
+                        </div>`;
+                    snippetList.appendChild(card);
+                });
+            };
+            
+            const updateComposer = () => {
+                composerList.innerHTML = '';
+                selectedSnippetIds.forEach(id => {
+                    const snippet = snippets.find(s => s.id === id);
+                    if (snippet) {
+                        const item = document.createElement('div');
+                        item.className = 'composer-item';
+                        item.dataset.id = snippet.id;
+                        item.draggable = true;
+                        item.innerHTML = `
+                            <span class="composer-item-text">${snippet.text}</span>
+                            <button class="composer-item-remove" title="Rimuovi">&times;</button>`;
+                        composerList.appendChild(item);
+                    }
+                });
+            };
+
+            const resetForm = () => {
+                snippetForm.reset();
+                snippetIdInput.value = '';
+                saveBtn.textContent = 'Aggiungi Snippet';
+                cancelBtn.style.display = 'none';
+            };
+
+            // --- GESTORI DI EVENTI ---
+
+            snippetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = snippetIdInput.value;
+                const text = snippetTextInput.value.trim();
+                const tags = snippetTagsInput.value.split(',').map(tag => tag.trim()).filter(Boolean);
+                if (!text) return;
+                if (id) {
+                    const index = snippets.findIndex(s => s.id == id);
+                    if (index > -1) snippets[index] = { ...snippets[index], text, tags };
+                } else {
+                    snippets.unshift({ id: Date.now(), text, tags });
+                }
+                resetForm();
+                renderAll();
+                saveData();
+            });
+
+            cancelBtn.addEventListener('click', resetForm);
+            searchInput.addEventListener('input', renderSnippets);
+            
+            snippetList.addEventListener('click', (e) => {
+                const card = e.target.closest('.snippet-card');
+                if (!card) return;
+                const id = parseInt(card.dataset.id);
+                if (e.target.classList.contains('snippet-checkbox')) {
+                    if (e.target.checked) selectedSnippetIds.add(id);
+                    else selectedSnippetIds.delete(id);
+                    updateComposer();
+                    saveData();
+                    return;
+                }
+                const action = e.target.dataset.action;
+                if (action) {
+                    const snippet = snippets.find(s => s.id === id);
+                    if (action === 'delete') {
+                        if (confirm('Sei sicuro di voler eliminare questo snippet?')) {
+                            snippets = snippets.filter(s => s.id !== id);
+                            selectedSnippetIds.delete(id);
+                            renderAll();
+                            saveData();
+                        }
+                    } else if (action === 'edit') {
+                        snippetIdInput.value = snippet.id;
+                        snippetTextInput.value = snippet.text;
+                        snippetTagsInput.value = snippet.tags.join(', ');
+                        saveBtn.textContent = 'Salva Modifiche';
+                        cancelBtn.style.display = 'inline-block';
+                        snippetTextInput.focus();
+                    } else if (action === 'duplicate') {
+                        snippets.unshift({ ...snippet, id: Date.now() });
+                        renderAll();
+                        saveData();
+                    }
+                }
+            });
+
+            copyBtn.addEventListener('click', () => {
+                const finalPrompt = Array.from(composerList.children).map(item => item.querySelector('.composer-item-text').textContent).join('\n\n---\n\n');
+                if (finalPrompt) {
+                    navigator.clipboard.writeText(finalPrompt).then(() => {
+                        copyBtn.textContent = 'Copiato!';
+                        setTimeout(() => { copyBtn.textContent = 'Copia Prompt Finale'; }, 1500);
+                    });
+                }
+            });
+            
+            // Drag & Drop
+            let draggedItem = null;
+            composerList.addEventListener('dragstart', (e) => {
+                draggedItem = e.target.closest('.composer-item');
+                setTimeout(() => { if (draggedItem) draggedItem.classList.add('dragging'); }, 0);
+            });
+            composerList.addEventListener('dragend', () => {
+                if (draggedItem) {
+                    draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                    const newOrder = Array.from(composerList.children).map(item => parseInt(item.dataset.id));
+                    selectedSnippetIds = new Set(newOrder);
+                    saveData();
+                }
+            });
+            composerList.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = [...composerList.querySelectorAll('.composer-item:not(.dragging)')].reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = e.clientY - box.top - box.height / 2;
+                    return (offset < 0 && offset > closest.offset) ? { offset: offset, element: child } : closest;
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+                if (draggedItem) {
+                    if (afterElement == null) composerList.appendChild(draggedItem);
+                    else composerList.insertBefore(draggedItem, afterElement);
+                }
+            });
+            composerList.addEventListener('click', e => {
+                if (e.target.classList.contains('composer-item-remove')) {
+                    const item = e.target.closest('.composer-item');
+                    const id = parseInt(item.dataset.id);
+                    selectedSnippetIds.delete(id);
+                    const checkbox = snippetList.querySelector(`.snippet-card[data-id="${id}"] .snippet-checkbox`);
+                    if(checkbox) checkbox.checked = false;
+                    updateComposer();
+                    saveData();
+                }
+            });
+
+            // GESTORI EVENTI PER IMPORT/EXPORT/CLEAR
+            clearStorageBtn.addEventListener('click', () => {
+                if (confirm('ATTENZIONE: Stai per eliminare l\'intera libreria salvata nel browser. Continuare?')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    snippets = [];
+                    selectedSnippetIds.clear();
+                    renderAll();
+                }
+            });
+
+            exportBtn.addEventListener('click', () => {
+                if (snippets.length === 0) { alert('La libreria è vuota.'); return; }
+                const dataStr = JSON.stringify({ snippets, selectedIds: Array.from(selectedSnippetIds) }, null, 2);
+                const dataBlob = new Blob([dataStr], {type: "application/json"});
+                const url = URL.createObjectURL(dataBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `prompt_libreria_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            importBtn.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data && Array.isArray(data.snippets)) {
+                            if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale. Continuare?')) return;
+                            snippets = data.snippets;
+                            selectedSnippetIds = new Set(data.selectedIds || []);
+                            renderAll();
+                            saveData();
+                            alert('Libreria importata con successo!');
+                        } else { throw new Error("Formato file non valido."); }
+                    } catch (error) {
+                        alert('Errore: Il file selezionato non è un JSON valido.');
+                    } finally { importBtn.value = ''; }
+                };
+                reader.readAsText(file);
+            });
+            
+            // --- NUOVA FUNZIONE: CARICAMENTO DA db.json ---
+            const loadFromDbJson = async () => {
+                if (snippets.length > 0 && !confirm('Questo sovrascriverà la libreria attuale con i contenuti di db.json. Continuare?')) {
+                    return;
+                }
+                try {
+                    const response = await fetch('db.json');
+                    if (!response.ok) {
+                        throw new Error(`File non trovato o errore di rete (status: ${response.status})`);
+                    }
+                    const data = await response.json();
+                    if (data && Array.isArray(data.snippets)) {
+                        snippets = data.snippets;
+                        selectedSnippetIds = new Set(data.selectedIds || []);
+                        renderAll();
+                        saveData();
+                        alert('Libreria caricata da db.json con successo!');
+                    } else {
+                        throw new Error("Il formato del file db.json non è valido.");
+                    }
+                } catch (error) {
+                    console.error("Errore caricando db.json:", error);
+                    alert(`Errore: Impossibile caricare il file db.json. Assicurati che esista nella stessa cartella dell'app e che sia un JSON valido.\n\nDettagli: ${error.message}`);
+                }
+            };
+            
+            loadDbBtn.addEventListener('click', loadFromDbJson);
+
+            // --- INIZIALIZZAZIONE ---
+            loadData();
+        });
+    </script>
+</body>
+</html>
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
