@@ -40,7 +40,7 @@
     {
       "id": 1760540727616,
       "title": "ESTRAZIONE CALENDARIO FILATELICO DA PDF",
-      "text": "In questo PDF, a partire dalla pagina 3 c’è una tabella che contiene il calendario delle emissioni filateliche, Mi occorre che lo analizzi e riporti i contenuti in una tabella composta da due colonne \"Argomento\" e \"Data”.\n\nNella colonna Argomento inserisci il testo riportato accanto al numero 1,, 2, ecc e nella colonna data. Inserisci la data corrispondente.\nPer tutti gli argomenti che non hanno data inerisci come data 31/12/2025.\n\nRimuovi eventuali caratteri che non riesci a decodificare.\n\nIl risultato finale dovrà essere una stringa di testo csv esportabile e incollabole in altre applicazioni",
+      "text": "In questo PDF, a partire dalla pagina 3 c’è una tabella che contiene il calendario delle emissioni filateliche, Mi occorre che lo analizzi e riporti i contenuti in una tabella composta da due colonne \"Argomento\" e \"Data”.\n\nNella colonna Argomento inserisci il testo riportato accanto al numero 1,, 2, ecc e nella colonna data. Inserisci la data corrispondente.\nPer tutti gli argomenti che non hanno data inerisci come data 31/12/2025.\n\nRimuovi eventuali caratteri che non riesci a decodificare.\n\nIl risultato finale dovrà essere una stringa di testo csv esportabile e incollabile in altre applicazioni",
       "tags": [
         "calendario",
         "filatelico",
