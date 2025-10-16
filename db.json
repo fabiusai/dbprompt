@@ -1,15 +1,67 @@
 {
   "snippets": [
     {
-      "id": 1760546007775,
-      "title": "ASPECT RATIO 8:3",
-      "text": "L’immagine generata deve avere tassativamente un aspect ratio 8:3 landscape e non deve avere aree completamente vuote",
+      "id": 1760621497237,
+      "title": "Aspect Ratio 8:3 Landscape",
+      "text": "L’immagine generata deve avere tassativamente un aspect ratio 8:3 landscape e non deve avere spazi completamente vuoti nelle parti esterne dell'immagine.",
       "tags": [
-        "grafica",
         "landscape",
-        "orizzontale",
+        "grafica",
+        "immagine",
+        "immagini",
         "risoluzione",
-        "immagine"
+        "8:3"
+      ]
+    },
+    {
+      "id": 1760541388337,
+      "title": "INTRO WEB APP JS PER GITHUB",
+      "text": "Mi occorre il codice html per una web app che utilizzi codice JS e contenga all'interno del codice html sia il codice JS che il codice CSS. L'app deve funzionare bene in locale e su un repository statico di Githb o simili.\nSpiego nel carattaeristiche e le funzionalità della web app nelle sezioni seguenti del prompt.",
+      "tags": [
+        "intro",
+        "app",
+        "js",
+        "html",
+        "javascript",
+        "github"
+      ]
+    },
+    {
+      "id": 1760540898273,
+      "title": "INFORMAZIONI USER INTERFACE POSTE STYLE",
+      "text": "Realizza la grafica ispirandoti al sito ufficiale di Poste Italiane (www.poste.it) e al suo branding visivo, con uso predominante dei colori giallo (#eddc01) e blu (#0146bc) istituzionali.\nLa UI deve essere:\n* Chiara, elegante e moderna, adatta a un’utenza professionale.\n* Caratterizzata da linee, riquadri e sezioni ben delimitate per una fruizione ordinata e intuitiva.\n* Strutturata con titoli e sottotitoli esplicativi che guidino l’utente nelle varie sezioni dell’interfaccia.\n* Con tasti in flat design (senza ombre o effetti tridimensionali) dallo stile semplice ma riconoscibile.\n* Ogni tasto deve includere un messaggio contestuale incorporato nel bottone stesso quando viene cliccato (es. \"Caricamento in corso...\", \"Fatto!\", ecc.).\nUlteriori elementi desiderati:\n* Utilizzo equilibrato di spazi bianchi, icone minimaliste monocromatiche, tipografia leggibile (preferibilmente sans-serif).\n* Layout responsivo adatto a desktop e mobile.\n* Possibilità di animazioni leggere o microinterazioni (es. hover sugli elementi attivi, feedback visivo al click).\nObiettivo: creare un’interfaccia piacevole da guardare e semplice da usare, coerente con l’identità visiva di Poste Italiane. Mantieni comunque un certo minimalismo e non inserire una molteplicità di colori\n\nNon nominare mai Poste Italiane né nell’html né nel frontend dell’app",
+      "tags": [
+        "ui",
+        "poste",
+        "poste italiane",
+        "posteitaliane",
+        "grafica",
+        "stile",
+        "interfaccia",
+        "grafica",
+        "interfccia grafica"
+      ]
+    },
+    {
+      "id": 1760540770439,
+      "title": "INSERIMENTO FAVICON",
+      "text": "Nel codice inserisci dove opportuno \n<link rel=\"icon\" href=\"favicon.ico\">",
+      "tags": [
+        "favicon"
+      ]
+    },
+    {
+      "id": 1760540727616,
+      "title": "ESTRAZIONE CALENDARIO FILATELICO DA PDF",
+      "text": "In questo PDF, a partire dalla pagina 3 c’è una tabella che contiene il calendario delle emissioni filateliche, Mi occorre che lo analizzi e riporti i contenuti in una tabella composta da due colonne \"Argomento\" e \"Data”.\n\nNella colonna Argomento inserisci il testo riportato accanto al numero 1,, 2, ecc e nella colonna data. Inserisci la data corrispondente.\nPer tutti gli argomenti che non hanno data inerisci come data 31/12/2025.\n\nRimuovi eventuali caratteri che non riesci a decodificare.\n\nIl risultato finale dovrà essere una stringa di testo csv esportabile e incollabole in altre applicazioni",
+      "tags": [
+        "calendario",
+        "filatelico",
+        "emissioni",
+        "filatelia",
+        "poste",
+        "poste italiane",
+        "posteitaliane"
       ]
     }
   ],
