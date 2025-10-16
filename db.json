@@ -1,6 +1,21 @@
 {
   "snippets": [
     {
+      "id": 1760624481199,
+      "title": "Illustrazione in bianco e nero e grgio",
+      "text": "Crea un'illustrazione stilizzata abbastanza dettagliata, ma senza eccedere, pensata per un pubblico di adolescenti (13-18 anni). Il disegno deve essere lineare e chiaro, con contorni puliti e decisi, evitando sia uno stile infantile che grottesco o satirico. ***ASPECT RATIO*** L'immagine deve avere tassativamente formato landscape orizzontale 8:3. ***COLORI*** Non usare colori. La palette cromatica è limitata a bianco, nero e un'unica tonalità di grigio, utilizzata con moderazione e sapientemente per creare ombreggiature, dare profondità e texture agli elementi. \n\n***DETTAGLI DELL'IMMAGINE*** L'immagine deve presentare una buona quantità di dettagli, che aggiungano interesse visivo senza appesantire la composizione. L'atmosfera è equilibrata con attenzione alla composizione e all'espressività dei personaggi o degli elementi. \n\n***COSA DEVE RAPPRESENTARE***",
+      "tags": [
+        "illustrazione",
+        "scuola",
+        "libri",
+        "bianco e nero",
+        "nero",
+        "bianco",
+        "disegno",
+        "china"
+      ]
+    },
+    {
       "id": 1760621497237,
       "title": "Aspect Ratio 8:3 Landscape",
       "text": "L’immagine generata deve avere tassativamente un aspect ratio 8:3 landscape e non deve avere spazi completamente vuoti nelle parti esterne dell'immagine.",
