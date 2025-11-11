@@ -9,7 +9,8 @@
         "html",
         "blocchi",
         "pezzi",
-        "editing"
+        "editing",
+        "patch"
       ]
     },
     {
