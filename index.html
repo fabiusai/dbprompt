@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libreria di Prompt v7 (con Titoli)</title>
+    <title>Libreria di Prompt v8 (Record Collassabili)</title>
     <style>
         :root {
             --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
@@ -43,10 +43,14 @@
         .snippet-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .snippet-title { margin: 0; font-size: 1.1em; color: var(--primary-color); }
         .snippet-checkbox { flex-shrink: 0; }
-        .snippet-text { white-space: pre-wrap; word-break: break-word; flex-grow: 1; opacity: 0.8; padding-left: 5px; border-left: 2px solid var(--border-color); }
+        .snippet-text { 
+            white-space: pre-wrap; word-break: break-word; flex-grow: 1; opacity: 0.8; 
+            padding-left: 5px; border-left: 2px solid var(--border-color); 
+            margin-top: 10px; /* Aggiunto spazio per separarlo dall'header */
+        }
         .snippet-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
         .tag { background-color: var(--primary-color); color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px; }
-        .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; }
+        .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
         .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 5px 10px; }
         .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
         .file-input-wrapper .btn-secondary { padding: 10px 15px; }
@@ -55,7 +59,7 @@
 </head>
 <body>
     <header>
-        <h1>Libreria di Prompt v7</h1>
+        <h1>Libreria di Prompt v8</h1>
         <div class="button-group">
             <button id="load-github-btn" class="btn-secondary">Carica da GitHub</button>
             <button id="copy-db-btn" class="btn-secondary">Copia DB per GitHub</button>
@@ -181,14 +185,18 @@
                     card.dataset.id = snippet.id;
                     const isChecked = selectedSnippetIds.has(snippet.id);
                     const tagsHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                    
+                    // <!-- MODIFICA: Aggiunto id e style="display: none;" al div del testo -->
+                    // <!-- MODIFICA: Aggiunto bottone [data-action="toggle"] -->
                     card.innerHTML = `
                         <div class="snippet-header">
                             <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
                             <h3 class="snippet-title">${snippet.title}</h3>
                         </div>
-                        <div class="snippet-text">${snippet.text}</div>
+                        <div class="snippet-text" id="snippet-text-${snippet.id}" style="display: none;">${snippet.text}</div>
                         <div class="snippet-tags">${tagsHTML}</div>
                         <div class="snippet-actions">
+                            <button class="action-btn" data-action="toggle">Apri</button>
                             <button class="action-btn" data-action="edit">Modifica</button>
                             <button class="action-btn" data-action="duplicate">Duplica</button>
                             <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
@@ -270,6 +278,17 @@
                     } else if (action === 'duplicate') {
                         snippets.unshift({ ...snippet, id: Date.now() });
                         renderAll(); saveData();
+                    } else if (action === 'toggle') {
+                        // <!-- MODIFICA: Logica per il toggle -->
+                        const snippetText = document.getElementById(`snippet-text-${id}`);
+                        const toggleBtn = e.target;
+                        if (snippetText.style.display === 'none') {
+                            snippetText.style.display = 'block';
+                            toggleBtn.textContent = 'Chiudi';
+                        } else {
+                            snippetText.style.display = 'none';
+                            toggleBtn.textContent = 'Apri';
+                        }
                     }
                 }
             });
@@ -391,9 +410,14 @@
                 if (snippets.length === 0) { alert('La libreria è vuota, non c\'è nulla da copiare.'); return; }
                 const dataToCopy = { snippets: snippets, selectedIds: Array.from(selectedSnippetIds) };
                 const jsonString = JSON.stringify(dataToCopy, null, 2);
+                
                 navigator.clipboard.writeText(jsonString).then(() => {
                     copyDbBtn.textContent = 'Copiato!'; copyDbBtn.style.backgroundColor = 'var(--success-color)';
                     setTimeout(() => { copyDbBtn.textContent = 'Copia DB per GitHub'; copyDbBtn.style.backgroundColor = '#6c757d'; }, 2000);
+                    
+                    // <!-- MODIFICA: Apre il link in una nuova scheda -->
+                    window.open('https://github.com/fabiusai/dbprompt/blob/main/db.json', '_blank');
+
                 }).catch(err => { console.error('Errore nella copia:', err); alert('Impossibile copiare il testo.'); });
             };
 
