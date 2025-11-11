@@ -46,11 +46,21 @@
         .snippet-text { 
             white-space: pre-wrap; word-break: break-word; flex-grow: 1; opacity: 0.8; 
             padding-left: 5px; border-left: 2px solid var(--border-color); 
-            margin-top: 10px; /* Aggiunto spazio per separarlo dall'header */
+            margin-top: 10px;
         }
         .snippet-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag { background-color: var(--primary-color); color: white; padding: 3px 8px; border-radius: 10px; font-size: 12px; cursor: pointer; transition: background-color 0.2s; }
-        .tag:hover { background-color: var(--primary-hover); }
+        
+        /* */
+        .tag { 
+            background-color: var(--primary-color); color: white; padding: 3px 8px; 
+            border-radius: 10px; font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .tag:hover {
+            background-color: var(--primary-hover);
+        }
+
         .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
         .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 5px 10px; }
         .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
@@ -97,13 +107,15 @@
                 </div>
             </div>
         </div>
+        
         <div class="column">
-            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
-                <input type="text" id="search-input" placeholder="Filtra per titolo, testo o tag..." style="flex-grow: 1; margin: 0;">
-                <button id="reset-filter-btn" class="btn-secondary" style="display: none; flex-shrink: 0;">Reset Filtro</button>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="search-input" placeholder="Filtra per titolo, testo o tag..." style="flex-grow: 1;">
+                <button id="reset-search-btn" class="btn-secondary" style="display: none; flex-shrink: 0;">Reset Filtro</button>
             </div>
-            <div id="snippet-list"></div>
+            <div id="snippet-list" style="margin-top: 20px;"></div>
         </div>
+        
     </div>
 
     <script>
@@ -117,7 +129,10 @@
             const saveBtn = document.getElementById('save-btn');
             const cancelBtn = document.getElementById('cancel-btn');
             const searchInput = document.getElementById('search-input');
-            const resetFilterBtn = document.getElementById('reset-filter-btn');
+            
+            // Riferimento al pulsante di reset
+            const resetSearchBtn = document.getElementById('reset-search-btn');
+
             const snippetList = document.getElementById('snippet-list');
             const composerList = document.getElementById('composer-list');
             const copyBtn = document.getElementById('copy-btn');
@@ -130,13 +145,11 @@
             // Stato dell'app
             let snippets = [];
             let selectedSnippetIds = new Set();
-            let activeTagFilter = null; // Stato per il filtro tag
             const STORAGE_KEY = 'promptLibrarySnippets';
             const GITHUB_DB_URL = 'https://raw.githubusercontent.com/fabiusai/dbprompt/main/db.json';
 
             const processLoadedData = (data) => {
                 if (data && Array.isArray(data.snippets)) {
-                    // Retrocompatibilità: Aggiunge un titolo se mancante
                     data.snippets.forEach(s => {
                         if (typeof s.title === 'undefined' || s.title === '') {
                             s.title = s.text.substring(0, 40) + '...';
@@ -178,50 +191,33 @@
             const renderSnippets = () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 snippetList.innerHTML = '';
-                
                 if (snippets.length === 0) {
                     snippetList.innerHTML = '<p>Nessuno snippet. Aggiungine uno o importa una libreria.</p>'; return;
                 }
-
-                let filteredSnippets = [];
-
-                if (activeTagFilter) {
-                    // Modalità filtro TAG
-                    filteredSnippets = snippets.filter(s => 
-                        s.tags.some(t => t.toLowerCase() === activeTagFilter.toLowerCase())
-                    );
-                    resetFilterBtn.style.display = 'inline-block';
-                } else if (searchTerm) {
-                    // Modalità filtro RICERCA
-                    filteredSnippets = snippets.filter(s => {
-                        const tagString = s.tags.join(' ').toLowerCase();
-                        return s.title.toLowerCase().includes(searchTerm) || s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
-                    });
-                    resetFilterBtn.style.display = 'inline-block';
-                } else {
-                    // Nessun filtro
-                    filteredSnippets = snippets;
-                    resetFilterBtn.style.display = 'none';
-                }
-                
-                if (filteredSnippets.length === 0) {
-                     snippetList.innerHTML = '<p>Nessuno snippet corrisponde ai filtri.</p>';
-                }
-
+                const filteredSnippets = snippets.filter(s => {
+                    const tagString = s.tags.join(' ').toLowerCase();
+                    return s.title.toLowerCase().includes(searchTerm) || s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
+                });
                 filteredSnippets.forEach(snippet => {
                     const card = document.createElement('div');
                     card.className = 'snippet-card';
                     card.dataset.id = snippet.id;
                     const isChecked = selectedSnippetIds.has(snippet.id);
-                    const tagsHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
                     
-                    // card.innerHTML = `
+                    const safeTagsHTML = snippet.tags.map(tag => {
+                        const span = document.createElement('span');
+                        span.className = 'tag';
+                        span.textContent = tag; 
+                        return span.outerHTML; 
+                    }).join('');
+                    
+                    card.innerHTML = `
                         <div class="snippet-header">
                             <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
                             <h3 class="snippet-title" id="snippet-title-${snippet.id}"></h3>
                         </div>
                         <div class="snippet-text" id="snippet-text-${snippet.id}" style="display: none;"></div>
-                        <div class="snippet-tags">${tagsHTML}</div>
+                        <div class="snippet-tags">${safeTagsHTML}</div>
                         <div class="snippet-actions">
                             <button class="action-btn" data-action="toggle">Apri</button>
                             <button class="action-btn" data-action="edit">Modifica</button>
@@ -229,7 +225,6 @@
                             <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
                         </div>`;
                     
-                    // // Questo previene che l'HTML nel testo o nel titolo "rompa" la UI della card
                     const snippetTitleElement = card.querySelector(`#snippet-title-${snippet.id}`);
                     if (snippetTitleElement) {
                         snippetTitleElement.textContent = snippet.title;
@@ -254,7 +249,7 @@
                         item.dataset.id = snippet.id;
                         item.draggable = true;
                         
-                        // const titleSpan = document.createElement('span');
+                        const titleSpan = document.createElement('span');
                         titleSpan.className = 'composer-item-title';
                         titleSpan.textContent = snippet.title;
                         
@@ -292,31 +287,48 @@
             });
 
             cancelBtn.addEventListener('click', resetForm);
-            
+
+            // MODIFICA ROBUSTA: Controlla se resetSearchBtn esiste
             searchInput.addEventListener('input', () => {
-                activeTagFilter = null; // Disattiva il filtro tag quando si cerca
                 renderSnippets();
+                if (resetSearchBtn) {
+                    resetSearchBtn.style.display = searchInput.value.length > 0 ? 'inline-block' : 'none';
+                }
             });
             
+            // MODIFICA ROBUSTA: Aggiunto listener SOLO SE resetSearchBtn esiste
+            if (resetSearchBtn) {
+                resetSearchBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    renderSnippets();
+                    resetSearchBtn.style.display = 'none';
+                    searchInput.focus();
+                });
+            }
+
             snippetList.addEventListener('click', (e) => {
+                
+                // Logica per il click sui tag
+                if (e.target.classList.contains('tag')) {
+                    e.preventDefault(); 
+                    const clickedTag = e.target.textContent;
+                    searchInput.value = clickedTag; 
+                    renderSnippets(); 
+                    // MODIFICA ROBUSTA: Controlla se resetSearchBtn esiste
+                    if (resetSearchBtn) {
+                        resetSearchBtn.style.display = 'inline-block'; 
+                    }
+                    searchInput.focus(); 
+                    return; 
+                }
+                
                 const card = e.target.closest('.snippet-card');
                 if (!card) return;
                 const id = parseInt(card.dataset.id);
-                
                 if (e.target.classList.contains('snippet-checkbox')) {
                     if (e.target.checked) selectedSnippetIds.add(id); else selectedSnippetIds.delete(id);
                     updateComposer(); saveData(); return;
                 }
-
-                // Gestione click su TAG
-                if (e.target.classList.contains('tag')) {
-                    const clickedTag = e.target.textContent;
-                    activeTagFilter = clickedTag; // Imposta il filtro tag
-                    searchInput.value = ''; // Pulisce la barra di ricerca
-                    renderSnippets(); // Ridisegna la lista
-                    return; // Esce dal gestore
-                }
-                
                 const action = e.target.dataset.action;
                 if (action) {
                     const snippet = snippets.find(s => s.id === id);
@@ -349,12 +361,6 @@
                         }
                     }
                 }
-            });
-
-            resetFilterBtn.addEventListener('click', () => {
-                activeTagFilter = null;
-                searchInput.value = '';
-                renderSnippets();
             });
 
             copyBtn.addEventListener('click', () => {
@@ -489,6 +495,11 @@
 
             // --- INIZIALIZZAZIONE ---
             loadData();
+            
+            // MODIFICA ROBUSTA: Controlla lo stato iniziale SOLO SE resetSearchBtn esiste
+            if (resetSearchBtn) {
+                resetSearchBtn.style.display = searchInput.value.length > 0 ? 'inline-block' : 'none';
+            }
         });
     </script>
 </body>
