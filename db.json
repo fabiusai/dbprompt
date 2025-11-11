@@ -1,6 +1,18 @@
 {
   "snippets": [
     {
+      "id": 1762854069715,
+      "title": "PATCH APPORTARE MODIFICHE AL CODICE",
+      "text": "Sto sviluppando una web app e avrò bisogno del tuo aiuto per effettuare modifiche al codice (HTML, CSS, JS, ecc.). \n\n***MODIFICA RICHIESTA***\n\n\n\n***MODALITA' MODIFICA***\nPer applicare queste modifiche, utilizzo un tool software che funziona esclusivamente tramite \"Cerca e Sostituisci\" per interi blocchi di codice.\n\nQuesto significa che non posso usare istruzioni come \"aggiungi questo attributo\" o \"modifica la riga 5\". Ho bisogno che tu mi fornisca esattamente il blocco di codice sorgente da eliminare e esattamente il blocco di codice nuovo che lo rimpiazzerà.\n\nIstruzioni Vincolanti per la Risposta: Ogni volta che ti chiederò una modifica al codice, la tua risposta deve seguire scrupolosamente uno dei due formati seguenti, a seconda della portata della modifica.\n\nCASO 1: Modifiche Piccole, Singole o Mirate\n\nQuesto è il metodo preferito per modifiche di piccola entità (es. cambiare il testo di un <p>, modificare uno stile inline, aggiungere un <div> attorno a un elemento esistente, correggere un singolo attributo).\n\nLa tua risposta deve essere strutturata esclusivamente in questo modo:\n\nUn blocco di codice formattato contenente il codice vecchio, preceduto dalla dicitura ### ✂️ BLOCCO DA RIMUOVERE:.\n\nUn blocco di codice formattato contenente il codice nuovo, preceduto dalla dicitura ### ✨ BLOCCO SOSTITUTIVO:.\n\nVincoli Assoluti per il CASO 1:\n\nEsattezza: Il BLOCCO DA RIMUOVERE deve essere una copia letterale, carattere per carattere (inclusi spazi, tabulazioni e interruzioni di riga) del codice originale che devo sostituire.\n\nCompletezza: Il BLOCCO SOSTITUTIVO deve essere il blocco di codice completo e aggiornato che rimpiazza quello vecchio.\n\nNiente Spiegazioni Intermedie: Non inserire nessun testo, commento o spiegazione tra i due blocchi di codice. Qualsiasi nota esplicativa deve essere aggiunta solo dopo aver fornito entrambi i blocchi.\n\n\nCASO 2: Modifiche Ampie, Multiple o Complesse\n\nQuesto metodo va usato se le modifiche richieste sono numerose (es. 3-4 modifiche separate in punti diversi del file) o strutturalmente ampie (es. rifattorizzare un'intera sezione, cambiare l'ordine di molti elementi).\n\nIn questo caso, non usare il metodo \"Rimuovi/Sostituisci\".\n\nLa tua risposta deve invece fornire:\n\nL'intero contenuto del file aggiornato, completo di tutte le modifiche, preceduto dalla dicitura ### 📄 CODICE COMPLETO AGGIORNATO:.",
+      "tags": [
+        "modifica",
+        "html",
+        "blocchi",
+        "pezzi",
+        "editing"
+      ]
+    },
+    {
       "id": 1762851207642,
       "title": "Ritratto professionale",
       "text": "A professional, high-resolution studio headshot of the same person, maintaining exact facial structure and realistic skin texture.\nFramed from the chest up, looking directly at the camera with a confident and approachable expression.\nWearing [descrivi l'abbigliamento].\nLighting is soft but directional, coming from the side and slightly above, sculpting the face and adding a subtle catchlight in the eyes.\nThe background is a clean neutral gradient (gray, blue, or graphite) with smooth falloff and no distractions.\nCaptured on an 85mm f/1.8 lens with shallow depth of field, cinematic color grading, and fine detail in the eyes and hair.\nThe image conveys [le caratteristiche che vuoi trasmettere: trust, closeness, approachability,leadership, creativity, professionalism]\n- perfect for a Linkedin profile photo.",
@@ -97,7 +109,5 @@
       ]
     }
   ],
-  "selectedIds": [
-    1762851207642
-  ]
+  "selectedIds": []
 }
