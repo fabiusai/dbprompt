@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libreria di Prompt v8 (Record Collassabili)</title>
+    <title>Libreria di Prompt v9 (Fix Sicurezza)</title>
     <style>
         :root {
             --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
@@ -59,7 +59,7 @@
 </head>
 <body>
     <header>
-        <h1>Libreria di Prompt v8</h1>
+        <h1>Libreria di Prompt v9</h1>
         <div class="button-group">
             <button id="load-github-btn" class="btn-secondary">Carica da GitHub</button>
             <button id="copy-db-btn" class="btn-secondary">Copia DB per GitHub</button>
@@ -177,6 +177,7 @@
                 }
                 const filteredSnippets = snippets.filter(s => {
                     const tagString = s.tags.join(' ').toLowerCase();
+                    // Cerca anche nel testo originale
                     return s.title.toLowerCase().includes(searchTerm) || s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
                 });
                 filteredSnippets.forEach(snippet => {
@@ -186,14 +187,13 @@
                     const isChecked = selectedSnippetIds.has(snippet.id);
                     const tagsHTML = snippet.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
                     
-                    // <!-- MODIFICA: Aggiunto id e style="display: none;" al div del testo -->
-                    // <!-- MODIFICA: Aggiunto bottone [data-action="toggle"] -->
+                    // <!-- MODIFICA: La struttura base della card ora ha placeholder vuoti per titolo e testo -->
                     card.innerHTML = `
                         <div class="snippet-header">
                             <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
-                            <h3 class="snippet-title">${snippet.title}</h3>
+                            <h3 class="snippet-title" id="snippet-title-${snippet.id}"></h3>
                         </div>
-                        <div class="snippet-text" id="snippet-text-${snippet.id}" style="display: none;">${snippet.text}</div>
+                        <div class="snippet-text" id="snippet-text-${snippet.id}" style="display: none;"></div>
                         <div class="snippet-tags">${tagsHTML}</div>
                         <div class="snippet-actions">
                             <button class="action-btn" data-action="toggle">Apri</button>
@@ -201,6 +201,19 @@
                             <button class="action-btn" data-action="duplicate">Duplica</button>
                             <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
                         </div>`;
+                    
+                    // <!-- MODIFICA: Imposta il testo e il titolo in modo sicuro usando .textContent -->
+                    // Questo previene che l'HTML nel testo o nel titolo "rompa" la UI della card
+                    const snippetTitleElement = card.querySelector(`#snippet-title-${snippet.id}`);
+                    if (snippetTitleElement) {
+                        snippetTitleElement.textContent = snippet.title;
+                    }
+                    
+                    const snippetTextElement = card.querySelector(`#snippet-text-${snippet.id}`);
+                    if (snippetTextElement) {
+                        snippetTextElement.textContent = snippet.text;
+                    }
+
                     snippetList.appendChild(card);
                 });
             };
@@ -214,9 +227,15 @@
                         item.className = 'composer-item';
                         item.dataset.id = snippet.id;
                         item.draggable = true;
-                        item.innerHTML = `
-                            <span class="composer-item-title">${snippet.title}</span>
-                            <button class="composer-item-remove" title="Rimuovi">&times;</button>`;
+                        
+                        // <!-- MODIFICA: Usa textContent anche qui per sicurezza -->
+                        const titleSpan = document.createElement('span');
+                        titleSpan.className = 'composer-item-title';
+                        titleSpan.textContent = snippet.title;
+                        
+                        item.appendChild(titleSpan);
+                        item.innerHTML += `<button class="composer-item-remove" title="Rimuovi">&times;</button>`;
+                        
                         composerList.appendChild(item);
                     }
                 });
@@ -279,7 +298,6 @@
                         snippets.unshift({ ...snippet, id: Date.now() });
                         renderAll(); saveData();
                     } else if (action === 'toggle') {
-                        // <!-- MODIFICA: Logica per il toggle -->
                         const snippetText = document.getElementById(`snippet-text-${id}`);
                         const toggleBtn = e.target;
                         if (snippetText.style.display === 'none') {
@@ -415,7 +433,6 @@
                     copyDbBtn.textContent = 'Copiato!'; copyDbBtn.style.backgroundColor = 'var(--success-color)';
                     setTimeout(() => { copyDbBtn.textContent = 'Copia DB per GitHub'; copyDbBtn.style.backgroundColor = '#6c757d'; }, 2000);
                     
-                    // <!-- MODIFICA: Apre il link in una nuova scheda -->
                     window.open('https://github.com/fabiusai/dbprompt/blob/main/db.json', '_blank');
 
                 }).catch(err => { console.error('Errore nella copia:', err); alert('Impossibile copiare il testo.'); });
