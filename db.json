@@ -67,7 +67,8 @@
         "js",
         "html",
         "javascript",
-        "github"
+        "github",
+        "nuova app"
       ]
     },
     {
@@ -83,7 +84,8 @@
         "stile",
         "interfaccia",
         "grafica",
-        "interfccia grafica"
+        "interfccia grafica",
+        "nuova app"
       ]
     },
     {
@@ -91,7 +93,8 @@
       "title": "INSERIMENTO FAVICON",
       "text": "Nel codice inserisci dove opportuno \n<link rel=\"icon\" href=\"favicon.ico\">",
       "tags": [
-        "favicon"
+        "favicon",
+        "nuova app"
       ]
     },
     {
