@@ -1,6 +1,18 @@
 {
   "snippets": [
     {
+      "id": 1763116099967,
+      "title": "Immagine 3d impacchettata in una busta trasparente",
+      "text": "Create a high-resolution, hyperrealistic image of a [attached object] sealed inside a vacuum-packed, crinkled metallic or transparent plastic pouch. The packaging should tightly conform to the shape of the object, exaggerating its curves, edges, and texture as if suctioned in place.\nInclude condensation or small creases around pressure points for added realism. The object inside should retain a bold, clean look - graphic or iconic in shape (eg. smiley face, toy, tool, accessory).The background should be white/soft gray and minimal to let the reflections and surface tension of the vacuum packaging stand out dramatically.\nOptionally, include barcode labels, printed product codes, or branded text for a dystopian, collectible or archival look.Visual Details: Crushed, transparent or metallic vacuum plastic Object's silhouette visible in extreme detail Harsh lighting to emphasize texture and form Typographic overlays, SKU codes or branding Moody, product display-style background Mood: Experimental, edgy, collectible, post-consumer Bright natural lighting enhances the vivid colors and gives a clean, cinematic realistic look.",
+      "tags": [
+        "grafica",
+        "3d",
+        "pacchetto",
+        "trasparente",
+        "ai"
+      ]
+    },
+    {
       "id": 1763022219947,
       "title": "Restauro e colori vecchia foto ritratto",
       "text": "Ultra-realistic recreation of an old vintage photo,\nkeeping the same original face (99% likeness, no\nalteration). Transform into a modern high-quality\ndigital portrait with vibrant updated colors,\nsmooth realistic skin textures, and natural light-\ning. The outfit and background should be up-\ngraded into a clean, modern aesthetic while pre-\nserving the authenticity of the original pose and\nexpression.",
@@ -134,7 +146,5 @@
       ]
     }
   ],
-  "selectedIds": [
-    1760540898273
-  ]
+  "selectedIds": []
 }
