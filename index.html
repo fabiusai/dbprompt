@@ -256,10 +256,19 @@
             border-radius: 10px;
             font-size: 12px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, color 0.2s; /* Aggiunta transizione colore */
         }
         .tag:hover {
             background-color: var(--primary-hover);
+        }
+        
+        /* Stili Tag per Light Mode (Contrasto Migliorato) */
+        :root.light-mode .tag {
+            background-color: #e9ecef; /* Grigio molto chiaro */
+            color: var(--text-color); /* Testo scuro */
+        }
+        :root.light-mode .tag:hover {
+            background-color: #dee2e6; /* Grigio leggermente più scuro per hover */
         }
 
         /* 2. Modifiche per Layout Compatto: Nuovi stili per azioni e rimozione vecchi */
