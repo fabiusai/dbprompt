@@ -6,54 +6,255 @@
     <title>Libreria di Prompt v9 (Fix Sicurezza)</title>
     <style>
         :root {
-            --bg-color: #1a1a1a; --surface-color: #2c2c2c; --primary-color: #007bff;
-            --primary-hover: #0056b3; --text-color: #f0f0f0; --border-color: #444;
-            --success-color: #28a745; --danger-color: #dc3545; --warning-color: #ffc107;
+            --bg-color: #1a1a1a;
+            --surface-color: #2c2c2c;
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --text-color: #f0f0f0;
+            --border-color: #444;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
         }
+        
+        /* 1. Aggiunta Selettore per Light Mode */
+        :root.light-mode {
+            --bg-color: #f4f4f4;
+            --surface-color: #ffffff;
+            --text-color: #1a1a1a;
+            --border-color: #ccc;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
-            display: flex; flex-direction: column; height: 100vh; box-sizing: border-box;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            transition: background-color 0.2s, color 0.2s;
         }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; flex-wrap: wrap; gap: 10px; }
-        h1 { margin: 0; color: var(--primary-color); }
-        .main-container { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; flex-grow: 1; min-height: 0; }
-        .column { display: flex; flex-direction: column; background-color: var(--surface-color); border-radius: 8px; padding: 20px; overflow-y: auto; }
-        .form-section, .composer-section { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        textarea, input[type="text"] {
-            width: 100%; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color);
-            border-radius: 4px; padding: 10px; box-sizing: border-box; font-size: 14px;
+        
+        /* 3. Stili per il Theme Toggle */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        textarea { resize: vertical; min-height: 120px; }
-        .button-group { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Larghezza ridotta */
+            height: 26px; /* Altezza ridotta */
+        }
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 26px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; /* Ridotto */
+            width: 20px; /* Ridotto */
+            left: 3px; /* Adattato */
+            bottom: 3px; /* Adattato */
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary-color);
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px); /* Adattato */
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            transition: background-color 0.2s;
+        }
+        .form-section,
+        .composer-section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
         .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
         .btn-success { background-color: var(--success-color); color: white; }
+        .btn-success:hover { background-color: #218838; }
         .btn-danger { background-color: var(--danger-color); color: white; }
-        #composer-list { border: 1px solid var(--border-color); border-radius: 4px; min-height: 150px; padding: 10px; background-color: var(--bg-color); overflow-y: auto; }
-        .composer-item { background-color: var(--surface-color); padding: 10px; margin-bottom: 5px; border-radius: 4px; cursor: grab; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); }
+        .btn-danger:hover { background-color: #c82333; }
+        
+        #composer-list {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-height: 150px;
+            padding: 10px;
+            background-color: var(--bg-color);
+            overflow-y: auto;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .composer-item {
+            background-color: var(--surface-color);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: grab;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
         .composer-item:last-child { margin-bottom: 0; }
         .composer-item.dragging { opacity: 0.5; }
         .composer-item-title { word-break: break-word; flex-grow: 1; font-weight: bold; }
         .composer-item-remove { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 1.2em; padding: 0 5px; margin-left: 10px; }
         #snippet-list { display: flex; flex-direction: column; gap: 15px; }
-        .snippet-card { background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 15px; display: flex; flex-direction: column; }
-        .snippet-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .snippet-title { margin: 0; font-size: 1.1em; color: var(--primary-color); }
-        .snippet-checkbox { flex-shrink: 0; }
-        .snippet-text { 
-            white-space: pre-wrap; word-break: break-word; flex-grow: 1; opacity: 0.8; 
-            padding-left: 5px; border-left: 2px solid var(--border-color); 
-            margin-top: 10px;
-        }
-        .snippet-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
         
-        /* */
-        .tag { 
-            background-color: var(--primary-color); color: white; padding: 3px 8px; 
-            border-radius: 10px; font-size: 12px;
+        .snippet-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        /* 2. Modifiche per Layout Compatto */
+        .snippet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap; /* Aggiunto per Rsp */
+            gap: 10px;
+        }
+        .snippet-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1; /* Occupa spazio */
+            min-width: 0; /* Per flex overflow */
+        }
+        .snippet-title {
+            margin: 0;
+            font-size: 1.1em;
+            color: var(--primary-color);
+            word-break: break-word; /* Evita overflow */
+        }
+        .snippet-checkbox {
+            flex-shrink: 0;
+        }
+        
+        .snippet-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            flex-grow: 1;
+            opacity: 0.8;
+            padding-left: 5px;
+            border-left: 2px solid var(--border-color);
+            margin-top: 10px;
+            transition: border-color 0.2s;
+        }
+        .snippet-tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
@@ -61,16 +262,58 @@
             background-color: var(--primary-hover);
         }
 
-        .snippet-actions { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-        .action-btn { background: none; border: 1px solid var(--border-color); color: var(--text-color); font-size: 12px; padding: 5px 10px; }
-        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
-        .file-input-wrapper .btn-secondary { padding: 10px 15px; }
-        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; }
+        /* 2. Modifiche per Layout Compatto: Nuovi stili per azioni e rimozione vecchi */
+        .snippet-actions-compact {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0; /* Non si riduce */
+        }
+        .action-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 11px; /* Ridotto */
+            padding: 4px 8px; /* Ridotto */
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .action-btn:hover {
+            background-color: var(--border-color);
+        }
+        
+        /* Vecchio .snippet-actions rimosso */
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-input-wrapper .btn-secondary {
+            padding: 10px 15px;
+        }
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Libreria di Prompt v9</h1>
+        <!-- 3. Aggiunto div per raggruppare titolo e toggle -->
+        <div class="header-left">
+            <h1>Libreria di Prompt v9</h1>
+            <!-- 3. Aggiunto HTML per il Theme Toggle -->
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="theme-toggle" title="Cambia tema">
+                    <input type="checkbox" id="theme-toggle" />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
         <div class="button-group">
             <button id="load-github-btn" class="btn-secondary">Carica da GitHub</button>
             <button id="copy-db-btn" class="btn-secondary">Copia DB per GitHub</button>
@@ -129,10 +372,7 @@
             const saveBtn = document.getElementById('save-btn');
             const cancelBtn = document.getElementById('cancel-btn');
             const searchInput = document.getElementById('search-input');
-            
-            // Riferimento al pulsante di reset
             const resetSearchBtn = document.getElementById('reset-search-btn');
-
             const snippetList = document.getElementById('snippet-list');
             const composerList = document.getElementById('composer-list');
             const copyBtn = document.getElementById('copy-btn');
@@ -141,10 +381,17 @@
             const clearStorageBtn = document.getElementById('clear-storage-btn');
             const loadGithubBtn = document.getElementById('load-github-btn');
             const copyDbBtn = document.getElementById('copy-db-btn');
+            
+            // 3. Riferimento per il Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
 
             // Stato dell'app
             let snippets = [];
             let selectedSnippetIds = new Set();
+            
+            // 1. Variabile di stato per filtro tag
+            let tagFilterOnly = false;
+            
             const STORAGE_KEY = 'promptLibrarySnippets';
             const GITHUB_DB_URL = 'https://raw.githubusercontent.com/fabiusai/dbprompt/main/db.json';
 
@@ -194,10 +441,18 @@
                 if (snippets.length === 0) {
                     snippetList.innerHTML = '<p>Nessuno snippet. Aggiungine uno o importa una libreria.</p>'; return;
                 }
+                
                 const filteredSnippets = snippets.filter(s => {
                     const tagString = s.tags.join(' ').toLowerCase();
-                    return s.title.toLowerCase().includes(searchTerm) || s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
+                    
+                    // 1. Logica di filtro modificata
+                    if (tagFilterOnly) {
+                        return tagString.includes(searchTerm);
+                    } else {
+                        return s.title.toLowerCase().includes(searchTerm) || s.text.toLowerCase().includes(searchTerm) || tagString.includes(searchTerm);
+                    }
                 });
+                
                 filteredSnippets.forEach(snippet => {
                     const card = document.createElement('div');
                     card.className = 'snippet-card';
@@ -211,19 +466,22 @@
                         return span.outerHTML; 
                     }).join('');
                     
+                    // 2. Struttura HTML della card modificata
                     card.innerHTML = `
                         <div class="snippet-header">
-                            <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
-                            <h3 class="snippet-title" id="snippet-title-${snippet.id}"></h3>
+                            <div class="snippet-header-left">
+                                <input type="checkbox" class="snippet-checkbox" ${isChecked ? 'checked' : ''}>
+                                <h3 class="snippet-title" id="snippet-title-${snippet.id}"></h3>
+                            </div>
+                            <div class="snippet-actions-compact">
+                                <button class="action-btn" data-action="toggle">Apri</button>
+                                <button class="action-btn" data-action="edit">Modifica</button>
+                                <button class="action-btn" data-action="duplicate">Duplica</button>
+                                <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
+                            </div>
                         </div>
                         <div class="snippet-text" id="snippet-text-${snippet.id}" style="display: none;"></div>
-                        <div class="snippet-tags">${safeTagsHTML}</div>
-                        <div class="snippet-actions">
-                            <button class="action-btn" data-action="toggle">Apri</button>
-                            <button class="action-btn" data-action="edit">Modifica</button>
-                            <button class="action-btn" data-action="duplicate">Duplica</button>
-                            <button class="action-btn" data-action="delete" style="color: var(--danger-color);">Elimina</button>
-                        </div>`;
+                        <div class="snippet-tags">${safeTagsHTML}</div>`;
                     
                     const snippetTitleElement = card.querySelector(`#snippet-title-${snippet.id}`);
                     if (snippetTitleElement) {
@@ -288,17 +546,19 @@
 
             cancelBtn.addEventListener('click', resetForm);
 
-            // MODIFICA ROBUSTA: Controlla se resetSearchBtn esiste
             searchInput.addEventListener('input', () => {
+                // 1. Reset filtro tag se si scrive manualmente
+                tagFilterOnly = false; 
                 renderSnippets();
                 if (resetSearchBtn) {
                     resetSearchBtn.style.display = searchInput.value.length > 0 ? 'inline-block' : 'none';
                 }
             });
             
-            // MODIFICA ROBUSTA: Aggiunto listener SOLO SE resetSearchBtn esiste
             if (resetSearchBtn) {
                 resetSearchBtn.addEventListener('click', () => {
+                    // 1. Reset filtro tag
+                    tagFilterOnly = false; 
                     searchInput.value = '';
                     renderSnippets();
                     resetSearchBtn.style.display = 'none';
@@ -308,13 +568,14 @@
 
             snippetList.addEventListener('click', (e) => {
                 
-                // Logica per il click sui tag
+                // 1. Logica modificata per click su tag
                 if (e.target.classList.contains('tag')) {
                     e.preventDefault(); 
                     const clickedTag = e.target.textContent;
                     searchInput.value = clickedTag; 
+                    tagFilterOnly = true; // Imposta il filtro solo tag
                     renderSnippets(); 
-                    // MODIFICA ROBUSTA: Controlla se resetSearchBtn esiste
+                    
                     if (resetSearchBtn) {
                         resetSearchBtn.style.display = 'inline-block'; 
                     }
@@ -421,7 +682,12 @@
             clearStorageBtn.addEventListener('click', () => {
                 if (confirm('ATTENZIONE: Stai per eliminare l\'intera libreria salvata nel browser. Continuare?')) {
                     localStorage.removeItem(STORAGE_KEY);
-                    snippets = []; selectedSnippetIds.clear(); renderAll();
+                    // 3. Rimuovi anche il tema salvato
+                    localStorage.removeItem('promptTheme');
+                    snippets = []; selectedSnippetIds.clear(); 
+                    renderAll();
+                    // 3. Ripristina tema dark
+                    applyTheme('dark'); 
                 }
             });
 
@@ -492,11 +758,33 @@
 
             loadGithubBtn.addEventListener('click', loadFromGithub);
             copyDbBtn.addEventListener('click', copyDbForGithub);
+            
+            // 3. Logica per il Theme Toggle
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    document.body.classList.add('light-mode');
+                    themeToggle.checked = true;
+                    localStorage.setItem('promptTheme', 'light');
+                } else {
+                    document.body.classList.remove('light-mode');
+                    themeToggle.checked = false;
+                    localStorage.setItem('promptTheme', 'dark');
+                }
+            };
+            
+            themeToggle.addEventListener('change', () => {
+                applyTheme(themeToggle.checked ? 'light' : 'dark');
+            });
+
 
             // --- INIZIALIZZAZIONE ---
+            
+            // 3. Applica tema salvato prima di caricare i dati
+            const savedTheme = localStorage.getItem('promptTheme') || 'dark';
+            applyTheme(savedTheme);
+            
             loadData();
             
-            // MODIFICA ROBUSTA: Controlla lo stato iniziale SOLO SE resetSearchBtn esiste
             if (resetSearchBtn) {
                 resetSearchBtn.style.display = searchInput.value.length > 0 ? 'inline-block' : 'none';
             }
