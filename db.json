@@ -1,6 +1,16 @@
 {
   "snippets": [
     {
+      "id": 1763390074172,
+      "title": "Da PDF Siglari a csv",
+      "text": "Sei un assistente per l'elaborazione dati. Ho una serie di file PDF che contengono siglari aziendali. Devo estrarre il testo da tutti questi PDF e formattarlo in un unico file .txt.\n\nOgni PDF contiene una tabella a due colonne, 'DESCRIZIONE FRAZIONARIO' e 'SIGLA'. Il testo grezzo estratto dai PDF è formattato in questo modo:\n\"DESCRIZIONE...\n\",\"SIGLA...\n\"\n\nIl tuo compito è processare questo testo ed generare un file .txt dove ogni riga contiene ESATTAMENTE i due campi, separati da una virgola, e racchiusi tra virgolette.\n\nFormato di output desiderato per OGNI riga:\n\"<DESCRIZIONE>\",\"<SIGLA>\"\n\nRegole importanti:\n1.  Ignora le intestazioni della tabella (come \"DESCRIZIONE FRAZIONARIO\", \"SIGLA\") e qualsiasi altra riga che non segua questo schema.\n2.  Non includere nuove righe (\n) all'interno delle virgolette.\n3.  L'output finale deve essere un unico blocco di testo pronto per essere salvato in un file .txt.\n\nChiedimi di caricare i PDF, elaborali e forniscimi il contenuto del file .txt da scaricare.",
+      "tags": [
+        "siglario",
+        "csv",
+        "gerarchia"
+      ]
+    },
+    {
       "id": 1763116099967,
       "title": "Immagine 3d impacchettata in una busta trasparente",
       "text": "Create a high-resolution, hyperrealistic image of a [attached object] sealed inside a vacuum-packed, crinkled metallic or transparent plastic pouch. The packaging should tightly conform to the shape of the object, exaggerating its curves, edges, and texture as if suctioned in place.\nInclude condensation or small creases around pressure points for added realism. The object inside should retain a bold, clean look - graphic or iconic in shape (eg. smiley face, toy, tool, accessory).The background should be white/soft gray and minimal to let the reflections and surface tension of the vacuum packaging stand out dramatically.\nOptionally, include barcode labels, printed product codes, or branded text for a dystopian, collectible or archival look.Visual Details: Crushed, transparent or metallic vacuum plastic Object's silhouette visible in extreme detail Harsh lighting to emphasize texture and form Typographic overlays, SKU codes or branding Moody, product display-style background Mood: Experimental, edgy, collectible, post-consumer Bright natural lighting enhances the vivid colors and gives a clean, cinematic realistic look.",
@@ -146,5 +156,7 @@
       ]
     }
   ],
-  "selectedIds": []
+  "selectedIds": [
+    1760540898273
+  ]
 }
