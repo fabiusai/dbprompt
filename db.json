@@ -1,6 +1,26 @@
 {
   "snippets": [
     {
+      "id": 1763736229516,
+      "title": "Infografica Gemini",
+      "text": "Titolo principale: \"IA Generativa: numeri chiave\".\n\nStruttura a 5 sezioni principali con grafici,\nicone e dati evidenziati. Contenuto da visualizzare:\n\n600 milioni di pErsone usano ChatGPT ogni settimana (+100% YoY)\n\n$244 miliardi: valore previsto del mercato dell'Al generativa entro 2025\n\n65% delle aziende Fortune 500 sta integrando soluzioni di GenAl\n\n52% dei marketer dichiara un aumento di produttività",
+      "tags": [
+        "grafica",
+        "infografica"
+      ]
+    },
+    {
+      "id": 1763734423433,
+      "title": "Ritratto in primissimo piano iper realistico di una ragazza",
+      "text": "Ritratto in primissimo piano di una giovane donna, luce naturale, texture della pelle distinta con pori e lievi imperfezioni, sfondo leggermente sfocato, scattato su\npellicola 35mm, obiettivo 85mm, f/1.8, iperrealistico, occhi a fuoco.",
+      "tags": [
+        "grafica",
+        "ritratto",
+        "iper realistico",
+        "foto"
+      ]
+    },
+    {
       "id": 1763390074172,
       "title": "Da PDF Siglari a csv",
       "text": "Sei un assistente per l'elaborazione dati. Ho una serie di file PDF che contengono siglari aziendali. Devo estrarre il testo da tutti questi PDF e formattarlo in un unico file .txt.\n\nOgni PDF contiene una tabella a due colonne, 'DESCRIZIONE FRAZIONARIO' e 'SIGLA'. Il testo grezzo estratto dai PDF è formattato in questo modo:\n\"DESCRIZIONE...\n\",\"SIGLA...\n\"\n\nIl tuo compito è processare questo testo ed generare un file .txt dove ogni riga contiene ESATTAMENTE i due campi, separati da una virgola, e racchiusi tra virgolette.\n\nFormato di output desiderato per OGNI riga:\n\"<DESCRIZIONE>\",\"<SIGLA>\"\n\nRegole importanti:\n1.  Ignora le intestazioni della tabella (come \"DESCRIZIONE FRAZIONARIO\", \"SIGLA\") e qualsiasi altra riga che non segua questo schema.\n2.  Non includere nuove righe (\n) all'interno delle virgolette.\n3.  L'output finale deve essere un unico blocco di testo pronto per essere salvato in un file .txt.\n\nChiedimi di caricare i PDF, elaborali e forniscimi il contenuto del file .txt da scaricare.",
@@ -157,6 +177,6 @@
     }
   ],
   "selectedIds": [
-    1760540898273
+    1763736229516
   ]
 }
