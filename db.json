@@ -1,6 +1,18 @@
 {
   "snippets": [
     {
+      "id": 1764932511335,
+      "title": "Semplificazione numeri K ed M",
+      "text": "I numeri superiori a 999 devono essere semplificati in K per le migliaia e M per i milioni. Inserisci due cifre decimali, ma elimina le cifre decimali che finiscono con 0.\nAd esempio 15.232 diventa 15,23K mentre 15.802 diventa 15,8K e 15.000 diventa 15K.\nI numeri decimali devono sempre essere separati attraverso una virgola dai numeri interi.",
+      "tags": [
+        "numeri",
+        "K",
+        "M",
+        "decimali",
+        "semplificazione"
+      ]
+    },
+    {
       "id": 1763736229516,
       "title": "Infografica Gemini",
       "text": "Titolo principale: \"IA Generativa: numeri chiave\".\n\nStruttura a 5 sezioni principali con grafici,\nicone e dati evidenziati. Contenuto da visualizzare:\n\n600 milioni di pErsone usano ChatGPT ogni settimana (+100% YoY)\n\n$244 miliardi: valore previsto del mercato dell'Al generativa entro 2025\n\n65% delle aziende Fortune 500 sta integrando soluzioni di GenAl\n\n52% dei marketer dichiara un aumento di produttività",
