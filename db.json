@@ -1,6 +1,17 @@
 {
   "snippets": [
     {
+      "id": 1768994320341,
+      "title": "Restauro foto vecchia",
+      "text": "Pure photographic texture restoration.\nPreserve original identity, facial structure, age and expression.\nReconstruct real human skin texture with visible pores, fine wrinkles,\nuneven micro details and natural imperfections.\nNatural skin translucency, realistic subsurface scattering.\nEnhance individual hair strands with natural thickness and randomness.\nRestore fabric texture with realistic fibers, stitching and wear.\nNo beautification, no retouching, no smoothing, no stylization.\nDocumentary photography realism.\n\nNEGATIVE PROMPT: plastic skin, wax skin, beauty retouch, smooth\nface, de-aging, cinematic lighting, HDR, oversharpen, Al artifacts, fake\ntexture, illustration, hyperreal",
+      "tags": [
+        "grafica",
+        "restauro",
+        "foto",
+        "ripristino"
+      ]
+    },
+    {
       "id": 1768992556826,
       "title": "Upscale ingrandimento generativo",
       "text": "Rebuild the image in ultra high resolution, enhancing realism and micro-details while keeping the character perfectly consistent with the reference. Preserve facial identity, proportions, and overall style with absolute fidelity.\n\nUpgrade material quality: add more realistic clothing fabric texture (weave, stitching, folds) and improve the environment surfaces (materials, reflections, roughness, depth) without altering the scene.\n\nDo NOT change composition, camera angle, framing, setting, pose, or action. Everything must remain identical only refine detail quality and realism.\n\nMaintain the same realistic documentary lighting, filmed from the shadow side, with natural contrast and subtle highlights.\n\nUse a cinematic camera/lens look (shallow depth of field, natural bokeh). Keep the original environment and lighting exactly the same.",
