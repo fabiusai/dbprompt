@@ -1,40 +1,17 @@
 {
   "snippets": [
     {
-      "id": 1768994320341,
-      "title": "Restauro foto vecchia",
-      "text": "Pure photographic texture restoration.\nPreserve original identity, facial structure, age and expression.\nReconstruct real human skin texture with visible pores, fine wrinkles,\nuneven micro details and natural imperfections.\nNatural skin translucency, realistic subsurface scattering.\nEnhance individual hair strands with natural thickness and randomness.\nRestore fabric texture with realistic fibers, stitching and wear.\nNo beautification, no retouching, no smoothing, no stylization.\nDocumentary photography realism.\n\nNEGATIVE PROMPT: plastic skin, wax skin, beauty retouch, smooth\nface, de-aging, cinematic lighting, HDR, oversharpen, Al artifacts, fake\ntexture, illustration, hyperreal",
+      "id": 1769590924581,
+      "title": "Favicon codice",
+      "text": "<link rel=\"icon\" href=\"favicon.ico\">",
       "tags": [
-        "grafica",
-        "restauro",
-        "foto",
-        "ripristino"
+        "favicon",
+        "icona"
       ]
-    },
-    {
-      "id": 1768992556826,
-      "title": "Upscale ingrandimento generativo",
-      "text": "Rebuild the image in ultra high resolution, enhancing realism and micro-details while keeping the character perfectly consistent with the reference. Preserve facial identity, proportions, and overall style with absolute fidelity.\n\nUpgrade material quality: add more realistic clothing fabric texture (weave, stitching, folds) and improve the environment surfaces (materials, reflections, roughness, depth) without altering the scene.\n\nDo NOT change composition, camera angle, framing, setting, pose, or action. Everything must remain identical only refine detail quality and realism.\n\nMaintain the same realistic documentary lighting, filmed from the shadow side, with natural contrast and subtle highlights.\n\nUse a cinematic camera/lens look (shallow depth of field, natural bokeh). Keep the original environment and lighting exactly the same.",
-      "tags": [
-        "grafica",
-        "upscale",
-        "qualità",
-        "miglioramento"
-      ]
-    },
-    {
-      "id": 1765290191169,
-      "title": "UI Kit app",
-      "text": "Prompt UI Kit & Design System Specification\n\nObiettivo: Creare un'interfaccia dashboard analitica per report social che sia pulita, corporate e altamente funzionale. Framework visivo: Stile \"Flat/Clean\" con leggera profondità (ombre) e forte gerarchia tipografica.\n1. Palette Colori & Variabili Globali\n\nUtilizzare rigorosamente i seguenti codici esadecimali per mantenere la coerenza del brand:\n\n    Primary Brand (Blu Istituzionale): #00529F (Usato per Header, Tab attive, Icone principali).\n\n    Primary Hover: #003e7e (Stato hover degli elementi interattivi primari).\n\n    Background App: #f4f6f8 (Grigio molto chiaro per lo sfondo pagina).\n\n    Surface/Card Background: #ffffff (Bianco puro).\n\n    Text Main: #2c3e50 (Grigio scuro/Blu notte per testi principali e numeri).\n\n    Text Secondary: #607d8b (Grigio bluastro per etichette, date e descrizioni).\n\n    Accent Success (Action Buttons/Toast): #27ae60 (Verde smeraldo). Hover: #219150.\n\n    Accent Warning (Export Buttons): #f1c40f (Giallo/Oro). Hover: #d4ac0d.\n\n    Borders/Dividers: #e2e8f0 (Grigio chiaro).\n\n2. Tipografia\n\n    Font Family: \"Segoe UI\", \"Helvetica Neue\", Arial, sans-serif.\n\n    Gerarchia:\n\n        H1 (Header): 1.4rem/1.5rem, Weight 600, Colore Bianco.\n\n        H2 (Card Titles): 1.2rem, Colore Primary (#00529F), con border-bottom decorativo.\n\n        H3 (Section Titles): 1.1rem, Weight 600, Colore Text Main.\n\n        Body Text: 15px/16px, Line-height 1.5/1.6.\n\n        Data/Numbers: 1.6rem o 1.8rem, Weight 700.\n\n3. Layout & Struttura\n\n    Container: Larghezza massima 1400px, centrato, padding laterale 1.5rem.\n\n    Header: Sticky (position: sticky, top: 0), background Primary, shadow leggera. Deve contenere il Titolo a sinistra e l'azione principale (es. \"Scarica JSON\") a destra.\n\n    Card Design (Generale):\n\n        Background: White.\n\n        Border-radius: 8px (o 12px per le Social Card).\n\n        Border: 1px solid #e1e4e8.\n\n        Shadow: 0 2px 8px rgba(0,0,0,0.08).\n\n        Padding interno: 1.5rem.\n\n4. Componenti UI Specifici\n\nA. Upload Area (Drag & Drop)\n\n    Stile: Box con bordo tratteggiato (3px dashed #cbd5e0).\n\n    Stato Default: Sfondo bianco. Icona grande centrale (3rem, Primary Color).\n\n    Stato Hover: Bordo Primary (#00529F), sfondo azzurro chiarissimo (#f0f7ff).\n\n    Feedback: Testo che cambia durante il caricamento (\"Elaborazione in corso...\").\n\nB. Navigazione a Tab\n\n    Contenitore: Flex row, border-bottom 2px solid #e2e8f0.\n\n    Tab Button:\n\n        Forma: Rettangolare con angoli superiori arrotondati.\n\n        Stato Inattivo: Sfondo bianco, testo #607d8b, bordo grigio chiaro.\n\n        Stato Attivo: Sfondo Primary (#00529F), testo Bianco, bordo Primary.\n\n        Animazione: Fade-in/Slide-up leggero al cambio contenuto.\n\nC. KPI Stat Cards (Grid View)\n\n    Layout: Grid responsive (minmax(220px, 1fr)).\n\n    Stile Card: Rettangolare, padding ridotto, Bordo sinistro colorato (5px solid #ddd default, diventa Primary on hover).\n\n    Effetto Hover: Traslazione Y negativa (-3px) per effetto sollevamento.\n\n    Contenuto:\n\n        Label (Uppercase, small, gray) + Icona Social.\n\n        Valore (Large, bold).\n\n        Tasto Copia: Obbligatorio accanto al valore numerico.\n\nD. Social Post Feed (Visualizzazione \"Card\")\n\n    Design: Deve ricordare un post social, non una riga di tabella.\n\n    Struttura Card:\n\n        Header: Icona canale (grande), Label autore (bold), Data (small).\n\n        Body:\n\n            Topic Pill: Badge arrotondato (border-radius: 20px), sfondo #eef2f7, testo Primary, uppercase.\n\n            Copy Text: Testo del post, leggibile, con tasto \"Copia\" posizionato in alto a destra o all'inizio del blocco.\n\n        Footer: Sfondo leggermente più scuro (#f8fafc), metriche (Eye icon/Thumbs up icon) colorate, Tasto Link esterno sulla destra.\n\n    Interazione: Hover sulla card aumenta l'ombra e solleva l'elemento.\n\nE. Tabelle Dati\n\n    Header (th): Sfondo #f8fafc, testo scuro, font-weight 700.\n\n    Righe (tr): Border-bottom sottile. Hover background #f7fafc.\n\n    Celle (td): Vertical align middle.\n\n    Funzionalità obbligatoria: Ogni cella contenente un dato utile deve avere un Copy Button invisibile che appare all'hover della riga o del dato.\n\nF. Bottoni e Controlli\n\n    Button \"Copia\":\n\n        Stile: Icona (<i class=\"far fa-copy\"></i>), background trasparente, nessun bordo.\n\n        Colore: Grigio chiaro (#cbd5e0) default, Primary (#00529F) on hover.\n\n        Feedback: Cambia in icona \"Check\" verde (#27ae60) per 1.5s dopo il click.\n\n    Button \"Export/Excel\": Background Giallo (#f1c40f), testo scuro, border-radius 4px. Icona Excel a sinistra.\n\n    Select Dropdown: Padding generoso (10px), border-radius 6px, bordo #cbd5e0.\n\n5. Feedback Utente (Toast Notifications)\n\n    Posizione: Fixed, Top-Right.\n\n    Stile: Box fluttuante, shadow marcata, icona a sinistra.\n\n    Varianti:\n\n        Success: Background Verde (#27ae60), testo bianco.\n\n        Error: Background Rosso (#e74c3c), testo bianco.\n\n    Animazione: Slide-in da destra.\n\nNote Funzionali per l'Allineamento\n\nQuando applichi questo design a nuove app, assicurati che:\n\n    Dati copiabili: Il design system prevede che ogni singolo dato atomico (date, numeri, testi) sia affiancato dal componente copy-btn. Non rimuoverlo per estetica; è una feature core.\n\n    Responsività: Le griglie (Stats e Post Cards) devono usare auto-fill con minmax per adattarsi a schermi grandi (fino a 1400px) e piccoli.\n\n    Iconografia: Usa le icone del brand del canale social nel colore Primary blue (#00529F) per uniformità, salvo dove indicato diversamente (es. metriche specifiche).",
-      "tags": [
-        "UI",
-        "UI Kit",
-        "minimalista",
-        "grafica"
-      ]
-    },
-    {
-      "id": 1764932511335,
+    }
+  ],
+  "selectedIds": []
+}      "id": 1764932511335,
       "title": "Semplificazione numeri K ed M",
       "text": "I numeri superiori a 999 devono essere semplificati in K per le migliaia e M per i milioni. Inserisci due cifre decimali, ma elimina le cifre decimali che finiscono con 0.\nAd esempio 15.232 diventa 15,23K mentre 15.802 diventa 15,8K e 15.000 diventa 15K.\nI numeri decimali devono sempre essere separati attraverso una virgola dai numeri interi.",
       "tags": [
