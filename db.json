@@ -1,6 +1,18 @@
 {
   "snippets": [
     {
+      "id": 1770365735958,
+      "title": "Miglioramento cinematico immagini",
+      "text": "Glow around the silhouette. The shadows must be\ncrushed deep black, with distinct cool teal and muted dark green undertones visible in the darker background areas. Add a heavy, authentic analog film grain texture over the entire image. Shallow depth of field, high contrast chiaroscuro lighting, atmospheric,\nemotional, dark cinematic aesthetic.",
+      "tags": [
+        "grafica",
+        "upscale",
+        "cinematico",
+        "cinema",
+        "milgioramento"
+      ]
+    },
+    {
       "id": 1768994320341,
       "title": "Restauro foto vecchia",
       "text": "Pure photographic texture restoration.\nPreserve original identity, facial structure, age and expression.\nReconstruct real human skin texture with visible pores, fine wrinkles,\nuneven micro details and natural imperfections.\nNatural skin translucency, realistic subsurface scattering.\nEnhance individual hair strands with natural thickness and randomness.\nRestore fabric texture with realistic fibers, stitching and wear.\nNo beautification, no retouching, no smoothing, no stylization.\nDocumentary photography realism.\n\nNEGATIVE PROMPT: plastic skin, wax skin, beauty retouch, smooth\nface, de-aging, cinematic lighting, HDR, oversharpen, Al artifacts, fake\ntexture, illustration, hyperreal",
@@ -221,5 +233,7 @@
       ]
     }
   ],
-  "selectedIds": []
+  "selectedIds": [
+    1760541388337
+  ]
 }
