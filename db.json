@@ -1,6 +1,16 @@
 {
   "snippets": [
     {
+      "id": 1773048298224,
+      "title": "Acquerello semplice con outline",
+      "text": "Please transform the provided photograph into a detailed, hand-drawn pen-and-ink and watercolor illustration, precisely matching the artistic style seen in image_0.png.\n\nThe key features of this style must be strictly adhered to:\n\n    Medium: This is a delicate mix of precise fine-line pen-and-ink drawing and transparent watercolor washes. The watercolor should show the subtle texture of cold-press paper.\n\n    Line Art: Use very fine, clean, technical black ink outlines for all structures (buildings, bridge, windows, and even the individual shapes of the wisteria foliage). The lines should be dominant but not heavy.\n\n    Palette: Limit the colors to natural, muted tones, avoiding overly saturated hues. Replicate the palette of soft stone blues, warm terracotta (burnt orange) roof tiles, pale stuccos, rich varied greens, and the characteristic purple/blue clusters of wisteria with small yellow accents.\n\n    Specific Elements: Replicate key architectural details like the stone-blocked bridge, the multi-story buildings with terracotta roofs, the tower with a central spire/weather vane, and arched windows. Ensure a similar treatment of cascading wisteria over walls and the bridge arch, and the simple, clean-line-drawn stone and water in the foreground.\n\n    Texture: The foliage of the trees and bushes should be rendered using dense clusters of fine ink lines and dabs of color, not photorealistic leaves. Stone surfaces should have visible line work defining the blocks. The text 'paint9art.com' from the example image must be removed entirely for a clean presentation.\n\nEnsure the final output is a clean, tranquil, and detailed hand-painted illustration that feels like a completed page from an artist's travel sketchbook, faithful to the composition of the input photo but rendered entirely in this specific style.",
+      "tags": [
+        "grafica",
+        "acquerello",
+        "disegno"
+      ]
+    },
+    {
       "id": 1770365735958,
       "title": "Miglioramento cinematico immagini",
       "text": "Glow around the silhouette. The shadows must be\ncrushed deep black, with distinct cool teal and muted dark green undertones visible in the darker background areas. Add a heavy, authentic analog film grain texture over the entire image. Shallow depth of field, high contrast chiaroscuro lighting, atmospheric,\nemotional, dark cinematic aesthetic.",
@@ -234,6 +244,6 @@
     }
   ],
   "selectedIds": [
-    1760541388337
+    1768992556826
   ]
 }
