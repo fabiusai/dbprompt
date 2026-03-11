@@ -1,6 +1,70 @@
 {
   "snippets": [
     {
+      "id": 1773241881155,
+      "title": "Crare immagini pubblicitarie",
+      "text": "Create a hyper-realistic 3D commercial product render of this item.\nPremium studio lighting.\nSoft shadows.\nWhite seamless background.\nUltra detailed material textures.\nE-commerce ready.\n4K resolution.\nIf luxury product:\nAdd subtle reflection floor and dramatic edge lighting.",
+      "tags": [
+        "grafica",
+        "pubblicità",
+        "studio fotografico"
+      ]
+    },
+    {
+      "id": 1773241699706,
+      "title": "Cambia colore",
+      "text": "Change the color of the [OBJECT] to [NEW COLOR].\nPreserve lighting, shadows, reflections, and texture.\nMake it look naturally manufactured in that color.\nNo color spill into surrounding objects.\nMaintain realism and material properties.\n\nIf metallic:\nPreserve reflective behavior and light response.",
+      "tags": [
+        "grafica",
+        "cambio colore selettivo"
+      ]
+    },
+    {
+      "id": 1773241597640,
+      "title": "Blurred to Sharp",
+      "text": "Restore this blurred image to ultra sharp editorial quality.\nMaintain exact composition and framing.\nReconstruct fine details naturally (hair strands, fabric texture, facial details).\nCorrect focus depth without changing subject proportions.\nRemove motion blur while preserving realism.\nHigh-end magazine photography finish.",
+      "tags": [
+        "Upscale",
+        "grafica",
+        "sfuocato",
+        "nitidezza"
+      ]
+    },
+    {
+      "id": 1773241514242,
+      "title": "Infografica professionale",
+      "text": "Read this article: [PASTE LINK]\nExtract the 5–7 most important insights.\nCreate a clean vertical infographic (4:5 ratio).\nMinimalist design, bold headline, strong hierarchy.\nUse high-contrast typography, modern sans-serif fonts.\nInclude icons for each section.\nWhite background with subtle accent color #14fff4.\nDesigned for LinkedIn and Instagram carousel.\nIf you want it more corporate:\nSwiss design layout, grid-based structure, plenty of white space.\n\nAll Texts MUST be in Italian",
+      "tags": [
+        "grafica",
+        "infografica",
+        "professionale",
+        "Powerpoint"
+      ]
+    },
+    {
+      "id": 1773241316492,
+      "title": "Infografica professionale",
+      "text": "Read this article: [PASTE LINK]\nExtract the 5–7 most important insights.\nCreate a clean vertical infographic (4:5 ratio).\nMinimalist design, bold headline, strong hierarchy.\nUse high-contrast typography, modern sans-serif fonts.\nInclude icons for each section.\nWhite background with subtle accent color #14fff4.\nDesigned for LinkedIn and Instagram carousel.\nIf you want it more corporate:\nSwiss design layout, grid-based structure, plenty of white space.",
+      "tags": [
+        "grafica",
+        "infografica",
+        "presentazioni",
+        "powerpint"
+      ]
+    },
+    {
+      "id": 1773241226258,
+      "title": "Ritratto professionale 2",
+      "text": "Transform this selfie into a studio-quality LinkedIn headshot.\n85mm lens look, shallow depth of field, soft cinematic lighting from 45-degree angle.\nNeutral blurred background (light gray gradient).\nProfessional posture, confident expression, natural skin texture (no plastic smoothing).\nUltra sharp focus on eyes.\nCorporate editorial photography style.\n4K resolution.\nMaintain facial identity 100%.\nIf you want a stronger executive look, add:\nSubtle rim light for depth, premium business magazine aesthetic.",
+      "tags": [
+        "foto",
+        "linkedin",
+        "ritratto",
+        "ritratto professionale",
+        "grafica"
+      ]
+    },
+    {
       "id": 1773048298224,
       "title": "Acquerello semplice con outline",
       "text": "Please transform the provided photograph into a detailed, hand-drawn pen-and-ink and watercolor illustration, precisely matching the artistic style seen in image_0.png.\n\nThe key features of this style must be strictly adhered to:\n\n    Medium: This is a delicate mix of precise fine-line pen-and-ink drawing and transparent watercolor washes. The watercolor should show the subtle texture of cold-press paper.\n\n    Line Art: Use very fine, clean, technical black ink outlines for all structures (buildings, bridge, windows, and even the individual shapes of the wisteria foliage). The lines should be dominant but not heavy.\n\n    Palette: Limit the colors to natural, muted tones, avoiding overly saturated hues. Replicate the palette of soft stone blues, warm terracotta (burnt orange) roof tiles, pale stuccos, rich varied greens, and the characteristic purple/blue clusters of wisteria with small yellow accents.\n\n    Specific Elements: Replicate key architectural details like the stone-blocked bridge, the multi-story buildings with terracotta roofs, the tower with a central spire/weather vane, and arched windows. Ensure a similar treatment of cascading wisteria over walls and the bridge arch, and the simple, clean-line-drawn stone and water in the foreground.\n\n    Texture: The foliage of the trees and bushes should be rendered using dense clusters of fine ink lines and dabs of color, not photorealistic leaves. Stone surfaces should have visible line work defining the blocks. The text 'paint9art.com' from the example image must be removed entirely for a clean presentation.\n\nEnsure the final output is a clean, tranquil, and detailed hand-painted illustration that feels like a completed page from an artist's travel sketchbook, faithful to the composition of the input photo but rendered entirely in this specific style.",
@@ -243,7 +307,5 @@
       ]
     }
   ],
-  "selectedIds": [
-    1768992556826
-  ]
+  "selectedIds": []
 }
