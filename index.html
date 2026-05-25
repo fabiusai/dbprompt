@@ -6,27 +6,31 @@
     <title>Libreria di Prompt v9 (Fix Sicurezza)</title>
     <style>
         :root {
-            --bg-color: #1a1a1a;
-            --surface-color: #2c2c2c;
-            --primary-color: #007bff;
-            --primary-hover: #0056b3;
-            --text-color: #f0f0f0;
-            --border-color: #444;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-color: #f8fafc;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --radius: 12px;
         }
         
-        /* 1. Aggiunta Selettore per Light Mode */
         :root.light-mode {
-            --bg-color: #f4f4f4;
+            --bg-color: #f8fafc;
             --surface-color: #ffffff;
-            --text-color: #1a1a1a;
-            --border-color: #ccc;
+            --text-color: #0f172a;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -35,278 +39,207 @@
             flex-direction: column;
             height: 100vh;
             box-sizing: border-box;
-            transition: background-color 0.2s, color 0.2s;
+            transition: background-color 0.3s, color 0.3s;
         }
         
-        /* 3. Stili per il Theme Toggle */
         .theme-switch-wrapper {
             display: flex;
             align-items: center;
-            gap: 10px;
         }
         .theme-switch {
             position: relative;
             display: inline-block;
-            width: 50px; /* Larghezza ridotta */
-            height: 26px; /* Altezza ridotta */
+            width: 44px;
+            height: 24px;
         }
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .theme-switch input { opacity: 0; width: 0; height: 0; }
         .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 26px;
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-color); transition: .3s; border-radius: 24px;
         }
         .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px; /* Ridotto */
-            width: 20px; /* Ridotto */
-            left: 3px; /* Adattato */
-            bottom: 3px; /* Adattato */
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
         }
-        input:checked + .slider {
-            background-color: var(--primary-color);
-        }
-        input:focus + .slider {
-            box-shadow: 0 0 1px var(--primary-color);
-        }
-        input:checked + .slider:before {
-            transform: translateX(24px); /* Adattato */
-        }
+        input:checked + .slider { background-color: var(--primary-color); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-shrink: 0;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 16px;
+            background: var(--surface-color);
+            padding: 16px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        h1 {
-            margin: 0;
-            color: var(--primary-color);
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        h1 { margin: 0; color: var(--primary-color); font-size: 1.5rem; font-weight: 700; }
+        
         .main-container {
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
+            grid-template-columns: 380px 1fr;
+            gap: 24px;
             flex-grow: 1;
             min-height: 0;
         }
+        
         .column {
             display: flex;
             flex-direction: column;
             background-color: var(--surface-color);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: var(--radius);
+            padding: 24px;
             overflow-y: auto;
-            transition: background-color 0.2s;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s;
         }
-        .form-section,
-        .composer-section {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        textarea,
-        input[type="text"] {
+        
+        .form-section, .composer-section { margin-bottom: 24px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-color); opacity: 0.9; }
+        
+        textarea, input[type="text"] {
             width: 100%;
             background-color: var(--bg-color);
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 12px;
             box-sizing: border-box;
-            font-size: 14px;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            font-size: 0.95rem;
+            transition: all 0.2s;
         }
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+        textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        textarea { resize: vertical; min-height: 100px; }
+        
+        .button-group { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+        
         button {
-            padding: 10px 15px;
+            padding: 10px 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        button:active { transform: scale(0.98); }
         .btn-primary { background-color: var(--primary-color); color: white; }
         .btn-primary:hover { background-color: var(--primary-hover); }
-        .btn-secondary { background-color: #6c757d; color: white; }
-        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-secondary { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background-color: var(--border-color); }
         .btn-success { background-color: var(--success-color); color: white; }
-        .btn-success:hover { background-color: #218838; }
+        .btn-success:hover { filter: brightness(1.1); }
         .btn-danger { background-color: var(--danger-color); color: white; }
-        .btn-danger:hover { background-color: #c82333; }
+        .btn-danger:hover { filter: brightness(1.1); }
         
         #composer-list {
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            min-height: 150px;
-            padding: 10px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            min-height: 120px;
+            padding: 12px;
             background-color: var(--bg-color);
             overflow-y: auto;
-            transition: background-color 0.2s, border-color 0.2s;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
         .composer-item {
             background-color: var(--surface-color);
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border-radius: 8px;
             cursor: grab;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid var(--border-color);
-            transition: background-color 0.2s, border-color 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
         }
-        .composer-item:last-child { margin-bottom: 0; }
-        .composer-item.dragging { opacity: 0.5; }
-        .composer-item-title { word-break: break-word; flex-grow: 1; font-weight: bold; }
-        .composer-item-remove { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 1.2em; padding: 0 5px; margin-left: 10px; }
-        #snippet-list { display: flex; flex-direction: column; gap: 15px; }
+        .composer-item:active { cursor: grabbing; }
+        .composer-item.dragging { opacity: 0.5; transform: scale(0.98); border-color: var(--primary-color); }
+        .composer-item-title { word-break: break-word; flex-grow: 1; font-weight: 600; font-size: 0.95rem; }
+        .composer-item-remove { background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 1.5rem; padding: 0 8px; margin-left: 10px; opacity: 0.7; }
+        .composer-item-remove:hover { opacity: 1; background: none; transform: scale(1.1); }
+        
+        #snippet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; align-items: start; }
         
         .snippet-card {
-            background-color: var(--bg-color);
+            background-color: var(--surface-color);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
+            border-radius: var(--radius);
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            transition: background-color 0.2s, border-color 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            box-shadow: var(--shadow);
+            height: 100%;
         }
+        .snippet-card:hover { border-color: var(--primary-color); box-shadow: 0 6px 12px -2px rgba(0,0,0,0.15); }
         
-        /* 2. Modifiche per Layout Compatto */
-        .snippet-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            flex-wrap: wrap; /* Aggiunto per Rsp */
-            gap: 10px;
-        }
-        .snippet-header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-grow: 1; /* Occupa spazio */
-            min-width: 0; /* Per flex overflow */
-        }
-        .snippet-title {
-            margin: 0;
-            font-size: 1.1em;
-            color: var(--primary-color);
-            word-break: break-word; /* Evita overflow */
-        }
-        .snippet-checkbox {
-            flex-shrink: 0;
-        }
+        .snippet-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 12px; }
+        .snippet-header-left { display: flex; align-items: center; gap: 12px; flex-grow: 1; min-width: 0; }
+        .snippet-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); flex-shrink: 0; }
+        .snippet-title { margin: 0; font-size: 1.05rem; color: var(--primary-color); font-weight: 600; word-break: break-word; line-height: 1.4; }
         
         .snippet-text {
-            white-space: pre-wrap;
-            word-break: break-word;
-            flex-grow: 1;
-            opacity: 0.8;
-            padding-left: 5px;
-            border-left: 2px solid var(--border-color);
-            margin-top: 10px;
-            transition: border-color 0.2s;
-        }
-        .snippet-tags {
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            white-space: pre-wrap; word-break: break-word; flex-grow: 1; opacity: 0.85;
+            padding: 12px; border-radius: 8px; background: var(--bg-color);
+            margin-top: 12px; font-size: 0.9rem; line-height: 1.5; border: 1px solid var(--border-color);
         }
         
+        .snippet-tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s; /* Aggiunta transizione colore */
+            background-color: rgba(59, 130, 246, 0.15); color: var(--primary-color);
+            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; border: 1px solid rgba(59, 130, 246, 0.3);
         }
-        .tag:hover {
-            background-color: var(--primary-hover);
-        }
+        .tag:hover { background-color: var(--primary-color); color: white; }
         
-        /* Stili Tag per Light Mode (Contrasto Migliorato) */
-        :root.light-mode .tag {
-            background-color: #e9ecef; /* Grigio molto chiaro */
-            color: var(--text-color); /* Testo scuro */
-        }
-        :root.light-mode .tag:hover {
-            background-color: #dee2e6; /* Grigio leggermente più scuro per hover */
-        }
+        :root.light-mode .tag { background-color: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+        :root.light-mode .tag:hover { background-color: #e2e8f0; color: #0f172a; }
 
-        /* 2. Modifiche per Layout Compatto: Nuovi stili per azioni e rimozione vecchi */
-        .snippet-actions-compact {
-            display: flex;
-            gap: 5px;
-            flex-shrink: 0; /* Non si riduce */
-        }
+        .snippet-actions-compact { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
         .action-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            font-size: 11px; /* Ridotto */
-            padding: 4px 8px; /* Ridotto */
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+            background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color);
+            font-size: 0.75rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-weight: 500;
         }
-        .action-btn:hover {
-            background-color: var(--border-color);
-        }
-        
-        /* Vecchio .snippet-actions rimosso */
+        .action-btn:hover { background-color: var(--border-color); }
 
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-        .file-input-wrapper .btn-secondary {
-            padding: 10px 15px;
-        }
-        .file-input-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; }
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+        /* RESPONSIVE DESIGN (MOBILE) */
+        @media (max-width: 900px) {
+            body { padding: 12px; height: auto; min-height: 100vh; overflow-y: auto; overflow-x: hidden; }
+            header { flex-direction: column; align-items: stretch; padding: 16px; margin-bottom: 16px; }
+            .header-left { width: 100%; justify-content: space-between; margin-bottom: 16px; }
+            .button-group { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 0; }
+            .button-group button, .file-input-wrapper, .file-input-wrapper .btn-secondary { width: 100%; margin: 0; }
+            #clear-storage-btn { grid-column: span 2; }
+            
+            .main-container { grid-template-columns: 1fr; gap: 16px; display: flex; flex-direction: column; }
+            .column { overflow-y: visible; padding: 16px; box-shadow: none; border: 1px solid var(--border-color); }
+            
+            #snippet-list { grid-template-columns: 1fr; }
+            
+            .snippet-header { flex-direction: column; align-items: stretch; }
+            .snippet-actions-compact { width: 100%; justify-content: space-between; margin-top: 12px; }
+            .action-btn { flex: 1; text-align: center; }
         }
     </style>
 </head>
@@ -787,9 +720,19 @@
 
 
             // --- INIZIALIZZAZIONE ---
+
+            // Fix Layout dinamico: impagina correttamente il titolo, i pulsanti e corregge l'altezza delle schede
+            const styleFix = document.createElement('style');
+            styleFix.innerHTML = `
+                .snippet-header { flex-direction: column !important; align-items: stretch !important; gap: 8px !important; }
+                .snippet-header-left { width: 100%; }
+                .snippet-actions-compact { width: 100%; justify-content: flex-start !important; margin-top: 4px; }
+                .snippet-card { height: auto !important; align-self: start; }
+            `;
+            document.head.appendChild(styleFix);
             
-            // 3. Applica tema salvato prima di caricare i dati
-            const savedTheme = localStorage.getItem('promptTheme') || 'dark';
+            // 3. Applica tema salvato prima di caricare i dati (Default modificato in 'light')
+            const savedTheme = localStorage.getItem('promptTheme') || 'light';
             applyTheme(savedTheme);
             
             loadData();
